@@ -1,0 +1,129 @@
+
+{% extends 'main.html' %}
+{% load static %} 
+{% load humanize %}
+ 
+
+{% block content %} 
+<section class = "content-section-single">
+    <h6 class = "content-title text-center"> พนักงาน | {{empcde}} {{empname}}  </h6>
+    <div class="row">
+        <div class = "container">
+            <nav class = "site-header-submenu">
+                <a class = "site-header-submenu-item " href="{%url 'monthendemployeetransaction' emptype empid  %}"> เมนูก่อนหน้า </a>
+                <p class="content-title text-center"> ข้อมูลรายการเงินได้/เงินหัก ประจำงวด </p>
+            </nav>
+
+            <!-- section emp-transaction -->
+            <div class="row ">
+                
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.errors }}
+                    {{ form.non_field.errors }}
+                
+                
+                    
+                    <div class="table table-responsive table-bordered table-borderless border-danger">
+                                
+                        <table>
+                           
+                            <tbody> 
+                                <tr>
+                                    <div class="form-filed" >
+                                        <td class=""> รายการ:{{ data.code }} | WORK PERIOD: {{data.period}}  </td>
+                                        <td class="col-md-1"> {{ form.numhour.label_tag}} {{ form.numhour }} </td>
+                                        <td class="col-md-1"> {{ form.numday.label_tag}} {{ form.numday}} </td>
+                                        <td class="col-md-1"> {{ form.num.label_tag}}{{ form.num }} </td>
+                                        <td class="col-md-1 text-right"> {{ form.payamt.label_tag }}{{ form.payamt}} </td>
+                                    </div> 
+                                </tr>
+                            </tbody>
+
+                        
+                        </table>
+                                
+                    </div>  
+                    
+                    <button type="submit" class = "button button-primary" name="emp_tran_submit" value = "submit employee Tran form "> บันทึก </button>  
+
+                </form>
+                
+            </div>  <!-- end of income information -->
+            
+            <!-- start dtransaction section -->
+            <div class="row">  
+                <table class = "table table-responsive table-responsive-sm table-bordered"> 
+                    <thead class = "thead th">
+                       
+                        <tr>
+                            <th> ID#</th>
+                            <th> Doc No  </th>
+                            <th> Work Date </th>
+                            <th> Start-Time </th>
+                            <th> Finish-Time </th>
+                            <th> Duration </th>
+                                                            
+                            <th> #นาที </th>
+                                        
+                            <th class="text-right"> Amount</th>                 
+                                
+                            <th> Status </th>  
+                        </tr>
+                    </thead>
+
+                    
+
+                    {% for r in dtransaction %}
+                    
+                        <tr> 
+                            <td class="col-md-1"> <a href="{% url 'hmdailytransactionupdate' r.id  %}">  {{ r.id }}  </a></td>              
+                            <td class="col-md-2"> <a href="{% url 'hmdailytransactionupdate' r.id  %}"> {{ r.docno }} </a></td>                     
+                            <td class="col-md-1"> {{ r.workdate|date:'d/m/Y' }} </td>
+                            <td class="col-md-1"> {{ r.workstarttime|date:"H:i:s" }} </td>
+                            <td class="col-md-1"> {{ r.workendtime|date:"H:i:s" }} </td>
+                            <td class="col-md-1"> {{ r.duration }} </td>
+    
+                            <td class="col-md-1"> {{ r.numhour |floatformat:0}} </td>                      
+                            <td class="col-md-1 text-right"> {{ r.payamt|floatformat:2|intcomma }} </td>
+                            <td class="col-md-1 text-center"> {{ r.status }} </td>  
+                            <td class ="col-md-1">
+                                <button class="btn btn-secondary" >
+                                ลบ </button> </td>
+                        </tr>
+                    
+                    {% endfor %}
+    
+              
+                </table>
+            </div> <!-- end of dtransaction section -->
+
+        </div> <!-- end of container -->
+     
+    </div> <!-- end of row -->
+    
+</section>
+
+<script type="text/javascript">
+   
+    
+    function SaveAllData(bt) {
+        var msg =   'บันทึกข้อมูล\n' + 
+                    'ท่านต้องการยืนยันหรือไม่? ' ;
+       
+        if (!confirm(msg)) {  
+                return;
+            } else {
+              
+                document.querySelector('form').submit() ;
+                alert('บันทึกข้อมูลเรียบร้อย') ;
+            
+            }
+              
+    }
+            
+    
+
+</script>
+
+{% endblock %}

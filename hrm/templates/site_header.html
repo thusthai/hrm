@@ -1,0 +1,70 @@
+{% load static %} 
+
+<header class="site-header">
+  <div class="">
+    <div class= "grid grid-3">
+      
+      <!-- blog grid#1 display logo or icon  -->
+      <div class="">
+          <img class="site-header-brand" src = "{% static 'header/logo.png' %}" alt=""> 
+      </div> 
+      
+      <!-- blog grid#2 Main Menu -->
+      <div class="">   
+        <div class="row"> <p> </p> </div>
+
+        <div class="grid grid-4"> 
+
+            <div class="col-md-12" >
+           
+              <a class="site-submenu-item" href =  "{% url 'hmhome' %}">
+                <img class = "image-icon-header" src="{% static 'header/home-1.png' %}" alt="Home">
+                Home 
+              </a> 
+            </div>
+            <div class="">
+              <a class="site-submenu-item" href =  "{% url 'login' %}">
+                  <img class = "image-icon-header" src="{% static 'header/login2.png' %}" alt="">
+                  Login
+              </a> 
+            </div>
+            <div class="">
+              <a class="site-submenu-item" href =  "{% url 'logout' %}">
+                  <img class ="image-icon-header" src="{% static 'header/logout.png' %}" alt="exit">
+                  Logout </a> 
+            </div>
+            <div class="">
+              <a class="site-submenu-item" href =  "{% url 'hmsetting' %}">
+                  <img class ="image-icon-header" src="{% static 'header/setting.png' %}" alt="exit">
+                  ตั้งค่า </a> 
+            </div>
+       
+        </div>
+
+      </div>
+      <!-- end of blog-2 -->
+
+      <!-- blog display User login information -->
+      <div class="">
+          <div class=""> </div>
+
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-sm-4 col-md-8 text-center">
+            <ion-icon name="people-outline" class="ion-icon"></ion-icon>
+            <!--div class="col-md-3"> <p> TEST </p> </div -->
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-sm-6 col-md-8 text-center">
+              ผู้ใช้งาน:{{username}} 
+            </div>
+          </div> 
+
+      </div>
+  
+    </div>
+  </div>
+</header>
+

@@ -1,0 +1,165 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %} {{ msg }} {% endblock %}
+
+{% block script %}
+<!-- Bootstrap 4 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<!-- Font Awesome 
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+<!-- Moment.js 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+
+<!-- Tempus Dominus Bootstrap 4 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+
+<!-- jQuery 
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+-->
+<!-- XDSoft DateTimePicker -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+
+
+{% endblock %}
+
+{% block content %} 
+
+  
+<section class = "content-section-single">
+    <div class = "content-container">
+        <h6 class = "content-title text-center"> พนักงาน {{ data.emp_cde }}  </h6> 
+        <div class="row">
+            <nav class = "site-header-submenu">
+               
+                <a class = "site-header-submenu-item " href="{%url 'emptranleave' %}"> 
+                    <ion-icon class="" name="arrow-back-circle-outline" size="small" ></ion-icon>
+                    ย้อนกลับ </a>         
+              
+            </nav>
+        </div>
+    </div>
+    
+    <div class = "container">
+        <div class="form-row spacer">
+            <form class="" method="post" >
+                {% csrf_token %}
+                {{ form.non_field.errors }}
+                
+                <div class="row" > 
+                    <div class="">
+                        <div class="form-field">
+                            {{ form.emp_cde.label_tag }}     
+                            <select class= "col-md-12  form-field" name="emp_cde" id="id_emp_cde">  
+                                <option value="{{data.emp_cde.emp_cde}}"> {{data.emp_cde}} </option>
+                                {% for emp in AllEmps %}
+                                    <option class="select-field" value="{{emp.emp_cde}}"> {{emp}} </option>
+                                {% endfor %}
+
+                            </select>
+                        
+                        </div>
+
+                        <div class="form-field">
+                            {{ form.leavecode.label_tag }}     
+                            <select class= "col-md-12  form-field" name="leavecode" id="id_leavecode">  
+                                <option value="{{data.leavecode.leavecode}}"> {{data.leavecode}} </option>
+                                {% for item in leaves %}
+                                    <option class="select-field" value="{{item.leavecode}}"> {{item}} </option>
+                                {% endfor %}
+
+                            </select>
+                        
+                        </div>
+
+                        <div class="form-field" id = "leavedatepicker" data-target-input="nearest" >
+                            {{ form.leavedate.label_tag }}                                    
+                            {{ form.leavedate }}
+
+                        </div>  
+                        <div class="form-field">
+                            {{ form.leave_type.label_tag }}        
+                            {{ form.leave_type}}
+                        </div>
+
+                        <div class="form-field" id="starttime">
+                            {{ form.starttime.label_tag}}
+                            {{form.starttime}}
+                        </div>
+                        <div class="form-field" id="endtime">
+                            {{ form.endtime.label_tag}}
+                            {{form.endtime}}
+                        </div>
+
+                        <div class="form-field">
+                            {{form.reason.label_tag}}
+                            {{form.reason}}
+                        </div>
+                        
+                        <div class="form-field">
+                            {{ form.pay.label_tag}}
+                            {{form.pay}}
+                        </div>
+                   
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        
+        <div class = "row" >
+            <div>
+                <button class = "button button-primary" onclick = "SaveAllData(this)"> บันทึก </button>  
+            </div>
+        </div>
+        
+      
+    </div>
+</section> 
+
+
+<script type='text/javascript'>
+    
+    
+    function SaveAllData(bt) {
+
+        var msg =   'บันทึกข้อมูล\n' + 
+                    'ท่านต้องการยืนยันหรือไม่?';
+        
+        if (!confirm(msg)) {  
+            return;
+        } else {
+
+                document.querySelector('form').submit() ;
+                alert('บันทึกข้อมูลเรียบร้อย')   ;           
+        }
+    }
+
+    $(function () {
+        $("#leavedatepicker").datetimepicker({
+            format: 'Y/m/d',
+        });
+        
+        $("#starttime")({
+            format: '%H:%M',
+          });
+        
+        $("#endtime")({
+            format: '%H:%M',
+          });
+
+        });
+
+</script>
+
+{% endblock %}

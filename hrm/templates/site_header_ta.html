@@ -1,0 +1,74 @@
+{% load static %} 
+
+<header class="site-header">
+  <div class="row">
+    <div class= "grid grid-3">
+      
+      <!-- blog grid#1 display logo or icon  -->
+      <div class="col-md-12">
+          <img class="site-header-brand" src = "{% static 'header/logo.png' %}" alt=""> 
+      </div> 
+      
+      <!-- blog grid#2 Main Menu -->
+      <div class="col-sm-8 col-md-12">   
+      
+        <div class="row"> 
+          <div class="col-sm-1 col-md-1" >
+
+          </div>
+          
+          <div class="col-sm-6 col-md-11" >
+            <nav class="collapse navbar-collapse main-nav" id="#myNavbar">
+              <ul class="nav nav-justified">
+                <li class="" >  
+                  <a href =  "{% url 'hmhome' %}">
+                      <img class = "image-icon-header" src="{% static 'header/home-1.png' %}" alt="Home">
+                      Import Data
+                  </a> 
+                </li>
+                <li class=""> <a href =  "{% url 'login' %}">
+                  <img class = "image-icon-header" src="{% static 'header/login2.png' %}" alt="">
+                    รายการประจำวัน
+                  </a> 
+                </li>
+                <li class=""> <a href =  "{% url 'logout' %}">
+                  <img class ="image-icon-header" src="{% static 'header/logout.png' %}" alt="exit">
+                    Export to Payroll</a> 
+                </li>
+                <li class=""> <a href =  "{% url 'hmsetting' %}">
+                  <img class ="image-icon-header" src="{% static 'header/setting.png' %}" alt="exit">
+                    ตั้งค่า </a> 
+                </li>
+              
+              </ul>
+            </nav>
+          </div> 
+        </div>
+
+      </div>
+      <!-- end of blog-2 -->
+
+      <!-- blog display User login information -->
+      <div class="row">
+          <div class="row"> </div>
+
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-sm-4 col-md-8 text-center">
+            <ion-icon name="people-outline" class="ion-icon"></ion-icon>
+            <!--div class="col-md-3"> <p> TEST </p> </div -->
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-sm-6 col-md-8 text-center">
+              ผู้ใช้งาน:{{username}} | (แผนก {{ department }})
+            </div>
+          </div> 
+
+      </div>
+  
+    </div>
+  </div>
+</header>
+

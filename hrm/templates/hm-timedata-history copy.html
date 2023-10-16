@@ -1,0 +1,178 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load humanize %}
+{% load tz %}
+
+{% block title %} {{ msg }} {% endblock %}
+
+{% block content %} 
+
+  
+<section class = "content-section-single">
+    <div class = "content-container">
+        <h6 class = "content-title text-center"> บันทึกเวลาเข้า-ออก|{{empmas}}|{{ period }} </h6> 
+
+    
+        <div class = "row ">
+            <div class = "col-md-5">
+                <div class="pagination">
+                    <span class="step-links">
+                  
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo;   หน้าแรก </a>
+                            {% if page_obj.previous_page_number != 1 %}
+                                <a href="?page={{ page_obj.previous_page_number }}"> ก่อนหน้า</a>
+                        
+                            {% endif %}
+                        {% endif %}
+
+                        <span class="current">
+                            (หน้าที่ {{ page_obj.number }}/{{ page_obj.paginator.num_pages }}.)
+                        </span>
+                
+                        {% if page_obj.has_next %}
+                            
+                            {% if page_obj.next_page_number != paginator.num_pages %} 
+                                <a href="?page={{ page_obj.next_page_number }}"> ถัดไป </a>
+                            {% endif %}
+
+                            <a href="?page={{ page_obj.paginator.num_pages }}">หน้าสุดท้าย &raquo;</a>
+                        {% endif %}
+
+                        <p>รายการที่ {{ page_obj.start_index }}—{{ page_obj.end_index }}</p>
+                    
+          
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-1"></div>
+            <div class="col-md-2"></div>
+
+            <div class="col-md-4">
+                <form class="form-inline my-2 my-lg-0" action="{% url 'hm-timedata-history-filter' emptype depid empid period %}">
+                    <input class="form-control mr-sm-2" type="search" placeholder="ระบุช้อความที่ต้องการ" aria-label="Search" name="q">                
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ค้นหา</button>
+                    
+                    
+                </form>
+
+            </div>
+      
+        </div>
+
+        
+        <div class="row">
+            <nav class = "site-header-submenu">
+                <!-- a class = "site-header-submenu-item " href="{% url 'hm-edit' emptype depid empid  %}"> 
+                    <ion-icon class="" name="arrow-back-circle-outline" size="small" ></ion-icon>
+                    ย้อนกลับ </!-->
+            
+              
+                {% for period in periods %}
+                    <div class="row">
+                        
+                        <div class="">
+                            <span>
+                            <a class="site-header-submenu-item" href="{% url 'hm-timedata-history_by_period' emptype depid empid period.cde %}" > {{ period }} </a>
+                            </span>
+                        </div>
+                       
+                    </div>
+                {% endfor %}       
+            </nav>
+        </div>
+
+        <div class="row">
+            <table class = "table table-responsive-md table-sm th"> 
+                <thead class = "thead th">
+                  
+                    <tr>
+                        
+                        <th> ID#</th>
+                        <th> วันที่  </th>
+                        <!-- th> Work-Date </!-->
+                        <th> Shift </th>
+                        <th> เข้างาน </th>
+                        <th> ออกงาน </th>
+                        <th> #OT  </th>
+                        <th> #มาสาย </th>              
+                        <th> #ออกก่อน </th>    
+                        <th> ลา </th>
+                        <!-- th> งวดบัญขี </+th -->
+                        <th> หมายเหตุ </th>
+                       
+                    </tr>
+                </thead>
+
+                    {% for r in page_obj %}
+                    
+                        <tr> 
+                            <td> <a href="{% url 'timedata_update' emptype period workdate strcon r.id  %}">  {{ r.id }}  </a></td>              
+                            <td class="col-md-1"> {{ r.ta_date|date:"d-m-Y" }} </td>
+                            <td class=""> {{ r.shift }} </td> 
+                            {% if r.timein != None %}
+                                <td class=""> {{ r.timein }} </td>
+                            {% else %}
+                                <td class= ""> </td>
+                            {% endif %}
+
+                            {% if r.timeout != None %}
+                                <td class=""> {{ r.timeout }} </td>
+                            {% else %}
+                                <td class= ""> </td>
+                            {% endif %}
+                            
+                            {% if r.numot > 0 %}
+                                <td class=""> {{ r.numot}} </td>
+                            {% else %}
+                                <td class= ""> </td>
+                            {% endif %}
+                            
+                            {% if r.numlate > 0 %}
+                                <td class=""> {{ r.numlate }} </td>                            
+                            {% else %}
+                                <td class= ""> </td>
+                            {% endif %}
+                            
+                            {% if r.numoutbf > 0 %}
+                                <td class=""> {{ r.numoutbf }} </td>
+                            {% else %}
+                                <td class= ""> </td>
+                            {% endif %}    
+                            
+                            {% if r.leavecode != None %} 
+                                <td class=""> {{r.leavecode}} </th>
+                            {% else %}
+                                <td class= ""> </td>
+                            {% endif %}
+                            
+                            <!-- td class ="col-md-1" > {{ r.period }} td -->
+                            {% if r.remarks_other == "วันอาทิตย์" %}
+                                <td class="col-md-5 text-color-red"> {{ r.remarks_other }} </td>            
+                            {% else %}
+                            
+                                {% if r.holiday != none %}
+                                    <td class="col-md-5 text-color-red"> {{ r.remarks_other }} </td>  
+                                {% else %}   
+                                    <td class="col-md-5"> {{ r.remarks_other }} </td>    
+                                {% endif %}
+                            {% endif %}
+                        
+                            
+                           
+                        </tr>
+                    
+                    {% endfor %}
+
+                    
+             
+                </table>
+          
+        </div>
+        
+      
+    </div>
+</section> 
+
+{% endblock %} 

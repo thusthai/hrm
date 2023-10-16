@@ -1,0 +1,119 @@
+
+{% extends 'main.html' %}
+{% load static %} 
+{% load humanize %}
+{% block content %}
+  
+<section class = "content-section-single">
+    <h6 class = "content-title text-center">REFERENCE PERSON DATA|{{empid}}  </h6>
+    <div class = "container">
+        <div class="row">
+            <nav class = "site-header-submenu">
+              
+                <a class = "site-header-submenu-item " href="{% url 'hm-edit' emptype depid empid %}"> ข้อมูลหลักพนักงาน </a>
+
+                {% if data.id != None %}  <!-- mean data.id exist on system else mean NEW data -->
+                    <a class = "site-header-submenu-item " href="{% url 'hm-refer' emptype depid data.id %}"> ข้อมูลบุคคลอ้างอิง </a>
+                    <a class = "site-header-submenu-item " href="{% url 'hm-education' emptype depid data.id %}"> ข้อมูลการศึกษา </a>      
+                    <a class = "site-header-submenu-item " href="{% url 'hm-exper' emptype depid data.id %}"> ข้อมูลประสบการณ์ </a>
+                  
+                    <a class = "site-header-submenu-item " href="{% url 'hm-edit-income' emptype depid data.id %}" > ข้อมูลเงินได้ </a>
+                    <a class = "site-header-submenu-item " href="{% url 'hm-inc-exp' emptype depid data.id %}" > รายการเงินได้/เงินหัก </a>
+                    <a class = "site-header-submenu-item " href="{% url 'hm-deduction' emptype depid data.id %}" > รายการลดหย่อน </a>
+                {% endif %}
+               
+            </nav>
+        </div>
+        <p class="content-title"> ข้อมูลบุคคลอ้างอิง </p>
+        <div class="table-responsive-sm">
+            <table class = "table table-sm table-light border-primary table-hover ">
+                <thead class="table-dark">
+                    <tr>
+                        <th> No </th>
+                        <th> Name </th>
+                        <th> Phone </th>
+                        <th> Career </th>
+                        <th> Address </th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {% for r in data %}
+                        <tr>
+                            <td class ="col-md-1"> 
+                                <a href="{%url 'hm-refer-edit' depid empid r.id %}" > {{ r.p_seq }} </a> 
+                            </td>
+                            <td class ="col-md-3" > {{ r.p_name }} </td>
+                            <td class ="col-md-2" > {{ r.p_tel }} </td>
+                            <td class ="col-md-2" > {{ r.p_career }} </td>
+                            <td class ="col-md-4"> {{ r.p_address}} </td>
+                            
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        
+        </div>
+        
+    
+            <form method="post">
+                {% csrf_token %}
+               
+                <div class = "row">
+                    
+                    <div class="col-md-1 form-field"> 
+                        {{ form.p_seq.label_tag}}
+                        {{ form.p_seq }} 
+                        {{ form.p_seq.errors}}
+                    </div>
+                    <div class="col-md-3 form-field">
+                        {{ form.p_name.label_tag}}
+                        {{ form.p_name }}
+                        {{ form.p_name.errors}}
+                    </div>
+                    
+                    <div class="col-md-2 form-field">
+                        {{form.p_tel.label_tag}}
+                        {{ form.p_tel}}
+                    </div>
+
+                    <div class="col-md-2 form-field">
+                        {{form.p_career.label_tag}}
+                        {{ form.p_career}}
+                    </div>
+
+                    <div class="col-md-4 form-field">
+                        {{form.p_address.label_tag}}
+                        {{ form.p_address }}
+                    </div>
+                </div>
+
+                <div>
+                    <button class = "button button-primary" onclick = "SaveAllData()"> บันทึก </button>  
+                </div>
+    
+            </form>
+
+    </div>
+    
+</section>
+
+<script>
+    function SaveAllData(bt) {
+        var msg =   'บันทึกข้อมูล\n' + 
+                    'ท่านต้องการยืนยันหรือไม่?';
+        
+        if (!confirm(msg)) {  
+                return;
+            } else {
+                document.querySelector('form').submit() ;
+                alert('บันทึกข้อมูลเรียบร้อย') ;
+            }
+    
+        }
+    
+</script>
+
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'main.html' %} 
+
+{% load static %}
+
+{% block content %}
+<section class = "content-section-single">     
+      
+        <div class = "content-container">
+                <h5 class = "content-title text-center"> ระบบบริหารงานบุคคล|ข้อมูลเริ่มต้นระบบ</h5>        
+               
+                <div class="grid grid-2">
+                       
+                        <div class = "main-menu" >
+                                <div class="col-md-12">
+                                
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item" href="http://127.0.0.1:8000/admin/hmdb/company/"> 
+                                                <ion-icon name="home-outline" size="large"></ion-icon>                                       
+                                                ข้อมูลบริษัทฯ </a>  
+                                        </div>
+
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item" href="http://127.0.0.1:8000/admin/hmdb/paymentperiod/" >
+                                                <ion-icon name="time-outline" size="large"></ion-icon>       
+                                                ข้อมูลงวดการทำงาน</a> 
+                                        </div>
+                                        
+                                        
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item" href="http://127.0.0.1:8000/admin/hmdb/employeetype/"> 
+                                                <ion-icon name="people-outline" size="large"></ion-icon>       
+                                                ข้อมูลประเภทพนักงาน </a> 
+                                        </div>
+
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item" href="http://127.0.0.1:8000/admin/hmdb/empposition"> 
+                                                        <ion-icon name="reorder-four-outline" size="large"></ion-icon>     
+                                                ข้อมูลตำแหน่งงาน </a> 
+                                        </div>
+                                        
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item" href="http://127.0.0.1:8000/admin/hmdb/empctldb/">
+                                                        <ion-icon name="list-outline" size="large"></ion-icon>    
+                                                ข้อมูลรายละเอียดเงินได้/เงินหัก</a>  
+                                        </div>
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item" href="#">
+                                                        <ion-icon name="reorder-four-outline" size="large"></ion-icon>    
+                                                ข้อมูลรหัสการลา </a>  
+                                        </div>
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item" href="http://127.0.0.1:8000/admin/hmdb/empperiod/">
+                                                <ion-icon name="calendar-outline" size="large"></ion-icon>    
+                                                กำหนดงวดการทำงาน (WORK-PERIOD) </a>  
+                                        </div>
+
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item" href="http://127.0.0.1:8000/admin/hmdb/empworktable/">
+                                                <ion-icon name="calendar-outline" size="large"></ion-icon>    
+                                                กำหนดข้อมูลการทำงานพิเศษ (SPECIAL WORK-TIME SETUP) </a>  
+                                        </div>
+
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item" href="#">
+                                                        <ion-icon name="calculator-outline" size="large"></ion-icon>    
+                                                ข้อมูลเครื่องบันทึกเวลา </a>  
+                                        </div>
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item" href="http://127.0.0.1:8000/admin/hmdb/taxdeduction/">
+                                                        <ion-icon name="reorder-four-outline" size="large"></ion-icon>    
+                                                ข้อมูลการลดหย่อนภาษีเงินได้</a>  
+                                        </div>
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item" href="http://127.0.0.1:8000/admin/hmdb/taxrate/">
+                                                        <ion-icon name="reorder-four-outline" size="large"></ion-icon>    
+                                                ข้อมูลตารางการคำนวณภาษีเงินได้ </a>  
+                                        </div>
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item" href="{% url 'userlist' %}">
+                                                        <ion-icon name="people-outline" size="large"></ion-icon>    
+                                                กำหนดข้อมูลผู้ใช้งานระบบ </a>  
+                                        </div>
+                                </div>
+                        </div>
+
+                                
+
+                        
+                      
+
+                        <div class="row">
+                                <div class="col-sm-6 col-md-12">
+                                       
+                                        <img class = "site-mainmenu site-mainmenu-item" src="{% static 'header/menu/hr/human-03.png' %}" alt="">
+                                            
+                                </div>
+                        </div>
+                </div>                   
+        </div>
+</section>
+
+{% endblock %} 

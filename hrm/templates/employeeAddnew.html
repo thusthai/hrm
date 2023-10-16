@@ -1,0 +1,212 @@
+
+{% extends 'main.html' %}
+{% load static %} 
+
+
+
+{% block content %}
+  
+<section class = "content-section-single">
+    <h6 class = "content-title text-center"> Employee | {{head_msg}}  </h6>
+    <div class = "container">
+        <div class="row">
+            <nav class = "site-header-submenu">
+                <a class = "site-header-submenu-item " href="{%url 'employeelist' emptype depid %}"> ย้อนกลับ </a>
+                
+                <!-- 
+                    <a class = "site-header-submenu-item " href="{%url 'hm-refer' depid data.id %}"> ข้อมูลบุคคลอ้างอิง </a>
+                    <a class = "site-header-submenu-item " href="#"> ข้อมูลการศึกษา </a>      
+                    <a class = "site-header-submenu-item " href="{%url 'hm-exper' depid data.id %}"> ข้อมูลประสบการณ์ </a>
+                -->
+                
+
+            </nav>
+            <div class="row">
+                <form method="post" enctype= "multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.errors }}
+                    {{ form.non_field.errors }}
+
+                    <div class="grid grid-3">
+                        
+                        <div class="">  
+                            <p> {{depid}} </p>    
+                            <div class="col-md-6 form-field"> 
+                                {{ form.emp_cde.label_tag }}
+                                {{ form.emp_cde }}
+                                {{ form.emp_cde.erros }}
+                            
+                            </div>                          
+                            <div class="col-md-6 form-field">
+                                {{ form.emp_pf.label_tag }}
+                                {{ form.emp_pf }} 
+                            </div>
+                            <div  class="col-md-6 form-field"> 
+                                {{ form.emp_sex.label_tag }}
+                                {{ form.emp_sex }} 
+                            </div>                            
+                            <div class="col-md-12 form-field">
+                                {{ form.emp_name.label_tag }}
+                                {{ form.emp_name}}
+                            </div>
+                            <div class="col-md-12 form-field">
+                                {{ form.emp_name_eng.label_tag }}
+                                {{ form.emp_name_eng}}
+                            </div>
+                            <div class="col-md-12 form-field"> 
+                                {{ form.emp_add1.label_tag}}
+                                {{ form.emp_add1 }}
+                            </div>
+                            <div class="col-md-12 form-field">
+                                {{ form.emp_add2.label_tag}}
+                                {{ form.emp_add2 }} 
+                            </div>
+                            <div class="col-md-12 form-field">
+                                {{form.emp_mobile.label_tag}}
+                                {{ form.emp_mobile}}
+                            </div>
+                            <div class="col-md-12 form-field">
+                                {{form.emp_email.label_tag}}
+                                {{ form.emp_email}}
+                            </div>
+                          
+                        </div>
+
+                        <div class="">  
+
+                            <div class="col-md-12 form-field"> 
+                                {{form.emp_position.label_tag}}
+                                <select class="col-md-12 form-field" name="emp_position" id="selectposition">
+                                    <option value="{{ data.emp_position.cde }}">{{ data.emp_position }}</option>
+                                    {% for emp_position in emp_positions %} 
+                                        <option class = "select-field" id="selectposition" 
+                                            value="{{emp_position.cde}}"> {{ emp_position }}
+                                        </option>
+                                    {% endfor %}
+                                </select>    
+                                <!-- {{form.emp_position}} -->
+                            </div>
+                            <div class="col-md-12 form-field"> 
+                                {{form.emp_dep.label_tag}}
+                               
+                                <select class="col-md-12 form-field" name="emp_dep" id="selectdep">
+                                    <option value="{{ data.emp_dep.dep_code }}">{{ data.emp_dep }}</option>
+                                    {% for emp_dep in emp_departments %} 
+                                        <option class = "select-field" id="selectdep" 
+                                            value="{{emp_dep.dep_code}}"> {{ emp_dep }}
+                                        </option>
+                                    {% endfor %}
+                                </select>    
+
+                                {{ form.emp_dep.erros }}
+                                
+                                dep: {{ depid }}
+                                <!-- {{form.emp_dep}} -->
+                            </div>      
+                            <div class="col-md-12 form-field">
+                                {{form.emp_type.label_tag}}
+                             
+                                <select class="col-md-12 form-field" name="emp_type" id="selectemptype">
+                                    <option value="{{ data.emp_type.cde }}">{{ data.emp_type }}</option>
+                                    {% for emp_type in emp_types %} 
+                                        <option class = "select-field" id="selectemptype" 
+                                            value="{{emp_type.cde}}"> {{ emp_type }}
+                                        </option>
+                                    {% endfor %}
+                                </select>    
+                                <!-- {{ form.emp_type}} -->
+                            </div>
+                            <div class="col-md-12 form-field">
+                                {{form.emp_cardid.label_tag}}
+                                {{ form.emp_cardid}}
+                            </div>
+                            <div class="col-md-12 form-field">
+                                {{form.emp_birthdate.label_tag}}
+                                {{ form.emp_birthdate}}
+                            </div>
+                            <div class="col-md-12 form-field">
+                                {{form.emp_taxid.label_tag}}
+                                {{ form.emp_taxid}}
+                            </div>
+                            <div class="col-md-12 form-field">
+                                {{form.emp_socialid.label_tag}}
+                                {{ form.emp_socialid}}
+                            </div>
+                            
+                        </div>
+
+                        <div class=""> 
+                          
+                            <div class="col-md-12 form-field"> 
+                                {{form.workstatus.label_tag}}
+                                {{form.workstatus}}
+                            </div>
+                            <div class="col-md-12 form-field"> 
+                                {{form.emp_startworkdate.label_tag}}
+                                {{form.emp_startworkdate}}
+                            </div>            
+                            <div class="col-md-12 form-field">
+                                {{form.emp_prodate.label_tag}}
+                                {{ form.emp_prodate}}
+                            </div>
+                            <div class="col-md-12 form-field">
+                                {{form.emp_hiredate.label_tag}}
+                                {{ form.emp_hiredate}}
+                            </div>
+
+                            <div class="col-md-12 form-field">
+                                {{form.emp_imageurl.label_tag}}
+                                {{ form.emp_imageurl }}
+                            </div>
+                        </div>
+ 
+                    </div>
+                    
+                    <div> 
+                        <button type="button" class = "button button-primary" onclick = "SaveAllData(this)"> บันทึก </button>  
+                    </div>
+                </form>
+            </div>  
+            
+        </div>
+     
+    </div>
+    
+       
+
+         
+</section>
+
+<script>
+function SaveAllData(bt) {
+    var msg =   'บันทึกข้อมูล\n' + 
+                'ท่านต้องการยืนยันหรือไม่?';
+
+    if (!confirm(msg)) {  
+        return;
+    } else {
+        
+        document.querySelector('form').submit() ;
+        alert('บันทึกข้อมูลเรียบร้อย') ;
+        
+    }
+        
+}
+        
+    function Script_checkID(cardid){
+        if(cardid.substring(0,1)== 0) 
+            return false;
+            if(cardid.length != 13) 
+                return false;
+        for(i=0, sum=0; i < 12; i++)
+            sum += parseFloat(id.charAt(i))*(13-i);
+            if((11-sum%11)%10!=parseFloat(cardid.charAt(12))) 
+            return false;
+        
+        return true;
+    }
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'main.html' %}
+{% load static %} 
+{% block title %} {{ title_msg }} {% endblock %}
+{% block content %} 
+
+  
+<section class = "content-section content-section-single">
+    <div class = "container">
+
+   
+    <h6 class = "content-title text-center"> {{ title_msg }} </h6> 
+    
+    <section class = "content-container">
+        <form class="form-inline my-2 my-lg-0" action="#">
+                    <input class="form-control mr-sm-2" type="search" placeholder="ค้นหา ชื่อ-นามสกุล อีเมลล์ เบอร์โทร" aria-label="Search" name="q">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ค้นหา</button>
+            
+        </form>
+        <nav class = "site-header-submenu">
+
+            <a class = "site-header-submenu-item" href="{% url 'adminhome' %}"> กลับเมนูหลัก </a>
+            <a class = "site-header-submenu-item" href="{% url 'useraddnew' %}"> เพิ่มข้อมูลใหม่ </a>
+              
+                        
+        </nav>
+    
+        <div class = "table-responsive-sm">
+            <table class="table table-sm table-borderless table-hover">
+                <thead class = "thead-dark">
+                    <tr>
+                
+                        <th> User Name </th>
+                        
+                        <th> email </th>
+                        <th> แผนก</th>    
+                        <th> is Admininstator </th> 
+                        <th> is Staff</th> 
+                        <th> is Active </th>
+                        <th><button>  + </button> </th>
+                    </tr>
+        
+                </thead>
+            
+                    {% for r in users %}
+                    
+                        <tr>               
+                            <td> <a href="{% url 'useredit' r.id %}">  {{ r.username }} </a></td>
+                            <td> {{ r.email }}  </td>
+                            <td> {{ r.dep }} </td>                                                  
+                            <td> {{ r.is_superuser }} </td>
+                            <td> {{ r.is_staff }} </td>
+                            <td> {{ r.is_active }} </td>
+
+                           
+                        </tr>
+                    
+                    {% endfor %} 
+                    
+                    
+            </table>
+        </div>
+         
+        </div>
+    </section>
+</section> 
+
+{% endblock %} 

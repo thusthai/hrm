@@ -1,0 +1,79 @@
+
+{% extends 'main.html' %}
+{% load static %} 
+{% load humanize %}
+{% block content %}
+  
+<section class = "content-section-single">
+    <h6 class = "content-title text-center"> Employee Experience  </h6>
+    <div class = "container">
+        <div class="row">
+            <nav class = "site-header-submenu">
+                <a class = "site-header-submenu-item " href="{%url 'hm-exper' depid empid %}"> ย้อนกลับ </a>
+               
+              
+            </nav>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+      
+            
+            
+            <div class = "">
+                
+                <div class="col-md-1 form-field"> 
+                    {{ form.p_seq.label_tag }}
+                    {{ form.p_seq }}
+                    {{ form.p_seq.errors}}
+                </div>
+                <div class="col-md-5 form-field">
+                    {{ form.p_company.label_tag }}
+                    {{ form.p_company }}
+                    {{ form.p_company.errors}}
+
+                </div>
+                <div class="col-md-2 form-field">
+                    {{ form.p_startdte.label_tag}}
+                    {{ form.p_startdte }} 
+                </div>
+                <div class="col-md-2 form-field">
+                    {{ form.p_enddte.label_tag}}
+                    {{ form.p_enddte}} 
+                </div>
+                <div class="col-md-4 form-field">
+                    {{ form.p_position.label_tag }}
+                    {{ form.p_position}}
+                </div>
+                <div class="col-md-5 form-field">
+                    {{ form.p_duty.label_tag }}
+                    {{ form.p_duty }}
+                </div>
+            </div>
+
+            <div>
+                <button type = "button" class = "button button-primary" onclick = "SaveAllData()"> บันทึก </button>  
+            </div>
+        </form>
+            
+    </div>
+    
+</section>
+
+<script>
+    function SaveAllData(bt) {
+        var msg =   'บันทึกข้อมูล\n' + 
+                    'ท่านต้องการยืนยันหรือไม่?';
+        
+        if (!confirm(msg)) {  
+                return;
+            } else {
+                document.querySelector('form').submit() ;
+                alert('บันทึกข้อมูลเรียบร้อย') ;
+            }
+    
+        }
+    
+
+</script>
+
+{% endblock %}

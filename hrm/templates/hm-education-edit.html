@@ -1,0 +1,104 @@
+
+{% extends 'main.html' %}
+{% load static %} 
+{% load humanize %}
+{% block content %}
+  
+<section class = "content-section-single">
+    <h6 class = "content-title text-center"> Employee Education History  </h6>
+    <div class = "container">
+        <div class="row">
+            <nav class = "site-header-submenu">
+                <a class = "site-header-submenu-item " href="{%url 'hm-education' depid empid %}"> ย้อนกลับ </a>
+               
+              
+            </nav>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+      
+            <div class = "">
+                    
+                <div class="col-md-1 form-field"> 
+                    {{ form.p_seq.label_tag}}
+                    {{ form.p_seq }}
+                    {{ form.p_seq.errors}}
+                </div>
+                <div class="col-md-6 form-field">
+                    {{ form.p_institue.label_tag}}
+                    {{ form.p_institue }} 
+                    {{ form.p_institue.errors}}
+                </div>
+                
+                <div class = "col-md-6" > {{form.p_level.label_tag}} </div>
+                <div class = "col-md-6">
+                    <select class="form-field" name="p_level" id="id_p_level">
+                    <option value="{{ data.p_level.id }}">{{ data.p_level }}</option>
+                    {% for p_level in p_levels %} 
+                        <option class = "select-field" id="id_p_level" 
+                            value="{{p_level.id}}"> {{ p_level }}
+                        </option>
+                    {% endfor %}
+                    </select>    
+                </div>
+                
+                <!-- div class="col-md-2 form-field">
+                    {{ form.p_level.label_tag }}
+                    {{ form.p_level}}
+                </!-->
+
+                <div class="col-md-6 form-field">
+                    {{ form.p_year.label_tag }}
+                    {{ form.p_year }}
+                </div>
+                <div class="col-md-6 form-field">
+                    {{form.p_major.label_tag}}
+                </div>
+                <div class = "col-md-6">
+                    <select class="form-field" name="p_major" id="id_p_major">
+                    <option value="{{ data.p_major.cde }}">{{ data.p_major }}</option>
+                    {% for p_major in p_majors %} 
+                        <option class = "select-field" id="id_p_major" 
+                            value="{{p_major.cde}}"> {{ p_major }}
+                        </option>
+                    {% endfor %}
+                    </select> 
+                    <a http://127.0.0.1:8000/admin/hm/grademajor/add/   
+                </div>
+               
+                <div class="col-md-6 form-field">
+                    {{form.p_gpa.label_tag}}
+                    {{ form.p_gpa }}
+                </div>
+            </div>
+            
+         
+            <div>
+                <button type = "button" class = "button button-primary" onclick = "SaveAllData()"> บันทึก </button>  
+            </div>
+        </form>
+            
+    </div>
+    
+</section>
+
+<script>
+    function SaveAllData(bt) {
+        var msg =   'บันทึกข้อมูล\n' + 
+                    'ท่านต้องการยืนยันหรือไม่?';
+        
+        if (!confirm(msg)) {  
+                return;
+            } else {
+                document.querySelector('form').submit() ;
+                alert('บันทึกข้อมูลเรียบร้อย') ;
+
+                
+            }
+    
+        }
+    
+
+</script>
+
+{% endblock %}

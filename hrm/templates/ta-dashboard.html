@@ -1,0 +1,95 @@
+
+{% extends 'main.html' %}
+
+
+{% load static %}
+{% load humanize %}
+
+{% block title %} Time Data {% endblock %}
+
+{% block content %}
+
+<section class="content-section-single">
+  <div class="content-container">
+
+    <div class="row">   <!-- div of main-menu-->
+      
+          
+        <div class="main-menu">  <!-- grid-1 left side bar -->
+              <div class="col-md-12">
+                <div class="">                        
+                  <a  href="#">
+                  <img class = "site-image-icon" src="{% static 'header/menu/hr/time-01.png' %}" alt="">
+                  Import Time Data </a>    
+                </div>
+            
+                <div class="" > 
+                  <!-- 
+                  <a  href="#">
+                    <img class = "site-image-icon" src="{% static 'header/setting.png' %}" alt="">
+                   </a> 
+                   -->
+                </div>
+                <div class="" > 
+                  <!-- 
+                      <a  href="#">
+                    <img class = "site-image-icon" src="{% static 'header/setting.png' %}" alt="">
+                    </a> 
+                  -->
+                
+                </div>
+                <div class="">   
+                  <!-- 
+                    <a  href="#">
+                    <img class = "site-image-icon" src="{% static 'header/menu/hr/transfer.png' %}" alt="">
+                    Emport To Payroll  </a>  
+                  -->                             
+                      
+                </div>
+              </div>    
+        </div>
+     
+    </div>
+
+    <div class="row">  <!-- content of employeetype -->
+      <div class="container"> <!--grid-2-->
+      
+    
+          <div class="grid grid-2">
+            {% for emptype in employeetype %}
+              <div class="col-md-10">
+                
+                  <div class="card text-black bg-secondary mb-12" style="max-width: 26rem;">   
+                
+                    <div class="card-header bg-success">
+                      <ion-icon class="ion-icon item-center" name="person-outline" ></ion-icon>
+                      <h4> {{ emptype }}</h4>
+                      <h6> จำนวน {{ emptype.num_item |floatformat:0|intcomma}} คน</h6> 
+                    </div>  
+                    
+                    <div class="card-body text-center">
+                                  
+                        <p class="card-text">
+                      
+                          <a href="{% url 'ta_dashboard_period' emptype.cde %}" > More Details...</a>
+                        
+                        </p>
+                    </div>
+                  </div>
+              </div>
+
+            {% endfor %} 
+          </div>
+   
+      </div>
+
+    </div> <!-- div class grid -->
+    
+  
+    
+  </div> <!-- div class container -->
+
+</section> 
+ 
+ {% endblock %} 
+

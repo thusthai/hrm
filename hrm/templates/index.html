@@ -1,0 +1,60 @@
+{% extends 'main.html' %} 
+
+{% load static %}
+
+{% block content %}
+
+<section class = "content-section-single">             
+        <div class = "content-container">   
+                <div class="grid grid-3">
+                        <div class="col-md-12"> <!-- grid-1-->
+                                <div class="main-menu"> 
+                                        <div class="col-md-12">
+                                                <div class="">                        
+                                                        <a  href="{% url 'menu_hm' %}">
+                                                        <img class = "site-image-icon" src="{% static 'header/menu/hr/human-01.png' %}" alt="">
+                                                        จัดการบุคคล </a>    
+                                                </div>
+                                                <div class="">                               
+                                                
+                                                        <a href= "{% url 'ta-dashboard' %}"> 
+                                                        <img class = "site-image-icon" src="{% static 'header/menu/hr/time-04.png' %}" alt="">
+                                                        ระบบบันทึกเวลา </a>   
+                                                </div>
+
+                                                <div class="">                                
+                                                        <a  href="{% url 'menu_payroll' %}">
+                                                        <img class = "site-image-icon" src="{% static 'header/menu/hr/salary.png' %}" alt="">
+                                                        งานบัญชีเงินเดือน</a>    
+                                                </div>
+                                                
+                                                <div class="">                                
+                                                        <a  href="{% url 'adminhome' %}">
+                                                        <img class = "site-image-icon" src="{% static 'header/menu/hr/human-00.png' %}" alt="">
+                                                        ตั้งค่าระบบ </a>    
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+
+                        <div class="col-md-12">  <!-- grid-2 -->
+                                <div class="">                        
+                                
+                                <img class = "image-block" src="{% static 'header/menu/hr/hrm01.png' %}" alt="">
+                                
+                                </div>
+                        </div>
+
+                        <div class="col-md-2"><!--grid-3-->
+                                <p></p>
+                        </div>
+                           
+                                
+                        
+                </div>
+           
+        </div>
+</section>
+
+
+{% endblock %} 

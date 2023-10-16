@@ -1,0 +1,118 @@
+
+{% extends 'main.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %} EMPLOYEE DATA {% endblock %}
+
+{% block content %}
+<section class="content-section-single">
+  <div class="content-container">
+    <div class="row">
+      
+        <div class="grid">
+          <div class="alert bg-warning" role="alert">
+            <div class="col-md-6">
+              <h4 class=""> 
+                <ion-icon class="ion-icon" name="home-outline"  > </ion-icon>
+              
+                Employee By Department|As Date:{{ workdate }} </h4>
+            </div>
+      
+            <div class="">
+              <a class="site-submenu-item" href="{%url 'hmdashboard'  %}">
+                <ion-icon class="ion-icon" name="arrow-back-circle-outline" size="large"></ion-icon>       
+              Back  </a> 
+            </div>
+          </div>
+        </div>
+    </div>
+    
+    <div class="container">
+      <div class="grid grid-4">
+        {% for item in data %}
+        
+            <div class="card text-black bg-secondary mb-3" style="max-width: 22rem;">
+              <!-- img class="card-img-bottom" src="{% static 'header/img2.png' %}" alt="Card image"
+              <div class= "card-img-overlay"> 
+              -->
+              
+              <div class="card-header bg-success">
+                  
+                  <div class="">
+                    <div class="grid grid-2">
+                      <div class=""> <!-- grid 1-->
+                        <div class="row item-center">
+                          <ion-icon class="ion-icon" name="person-outline" > </ion-icon>
+                        </div>
+                        <div class="row">
+                          <h6 class="text-center bg-info"> {{ item.num_item }} คน</h6>
+                        </div>
+                      </div>
+
+                      <div class=""> <!-- grid 2-->
+                        <h6> แผนก {{ item }}</h6>
+                      </div>
+                    </div>
+                    
+                  </div>
+
+                    <div class="row"> <!-- table section-->
+                      <table class="table table-responsive ">
+                        <thead>
+                          <tr class="text-center">
+                            <th class="col-md-3"> มา </th>
+                            <th class="col-md-3"> ลา </th>
+                            <th class="col-md-3" > ไม่มา </th>
+                            <th class="col-md-3"> สาย </th>
+                          </tr>
+                        </thead>
+                        <tbody class="text-center">
+                          <tr>
+                            <td>{{ item.num_work }} </td>
+                            <td>{{ item.num_leave }} </td>
+                            <td>{{ item.num_absent }} </td>
+                            <td>{{ item.num_late}} </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      
+                    </div>
+
+              </div> <!-- end heading of card -->
+              
+
+              <div class="card-body text-center">
+                  
+                  <!-- p> {{ dep.num_item |floatformat:0|intcomma}} คน</!-->              
+                  <p class="card-text">
+                    <a href="{% url 'employeelist' emptype item.id %}" > More Details...</a>
+                  </p>
+              </div>
+
+            </div>       
+        {% endfor %} 
+      </div> <!-- //end grid -->
+    </div> <!-- End div data containner -->
+
+  </div> <!-- //container -->
+</section>
+
+<!-- footer style="margin-top: 100px">
+  <center> desiged by <a href="https://devbanban.com/"> devbanban.com </a> 2022</center>
+</footer> -->
+
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<!-- ionicon -->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<!--
+ionicon docs เข้าไปอ่านกันหน่อย
+*Usage : https://ionic.io/ionicons/usage
+*All icon : https://ionic.io/ionicons
+-->
+ 
+   
+ {% endblock %} 
+

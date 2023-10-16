@@ -1,0 +1,248 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %} {{ msg }} {% endblock %}
+
+{% block script %}
+<!-- Bootstrap 4 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<!-- Font Awesome 
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+<!-- Moment.js 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+
+<!-- Tempus Dominus Bootstrap 4 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+
+<!-- jQuery 
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+-->
+<!-- XDSoft DateTimePicker -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+
+
+{% endblock %}
+
+{% block content %} 
+
+  
+<section class = "content-section-single">
+    <div class = "container">
+        <h6 class = "content-title text-center"> พนักงาน {{ data.emp_cde }}  </h6> 
+        <div class="row">
+            <nav class = "site-header-submenu">
+             
+                <a class = "site-header-submenu-item " href="{% url 'menu-time' emptype period %}"> 
+                    <ion-icon class="" name="arrow-back-circle-outline" size="small" ></ion-icon>
+                    ย้อนกลับ </a>         
+                
+            </nav>
+        </div>
+
+        <div>
+        
+            <form class="" method="post" >
+                {% csrf_token %}
+                {{ form.non_field.errors }}
+                
+                <div class="grid grid-3" >
+                    <div>  <!-- grid-1-->
+                        <div class ="row" > 
+                                {{form.period.label_tag}}
+                                <select class= "col-md-8  form-field" name="period" id="id_period">  
+                                    <option value="{{data.period.cde}}"> {{data.period}} </option>
+                                    {% for item in periods %}
+                                        <option class="select-field" value="{{item.cde}}"> {{item}} </option>
+                                    {% endfor %}
+
+                                </select>
+                        </div>
+                        <div class ="row" > 
+                               {{ form.shift.label_tag }}
+                                <select class= "col-md-8 form-field" name="shift" id="id_shift">  
+                                <option value="{{data.shift.shift }}"> {{data.shift}} </option>
+                                {% for item in shifts %}
+                                    <option class="select-field" value="{{item.shift}}"> {{item}} </option>
+                                {% endfor %}
+
+                                </select>  
+                        </div>
+
+                        <div class="row">
+                           
+                        </div>
+                        
+                    </div>
+
+                    <div> <!-- grid-2-->
+                      
+                           
+                                <div class="row">
+                                    <div class="col-md-6 form-field" id = "workdatepicker" data-target-input="nearest">
+                                        {{ form.ta_date.label_tag }}
+                                        {{ form.ta_date }}                         
+                                        {{ form.ta_date.errors }}
+                                    </div>
+                                    <div class= "col-md-6 form-field">
+                                        {{ form.pay.label_tag}}
+                                        {{form.pay}}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    
+                                    
+                                    <div class="col-md-6 form-field" id="id_timein" >
+                                        {{ form.timein.label_tag }}
+                                        {{ form.timein }}
+                                        <!--div class="input-group-append" data-target="#starttimepicker" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </!-->
+                                        {{ form.timein.errors }}
+                                    </div>
+                                    <div class="col-md-6 form-field">
+                                        {{form.numlate.label_tag}}
+                                        {{ form.numlate }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-md-6 form-field" >
+                                            {{ form.timeout.label_tag }}
+                                            {{ form.timeout }}
+                                            {{ form.timeout.errors }}
+                                        </div>
+                                        <div class="col-md-6 form-field">
+                                            {{form.numoutbf.label_tag}}
+                                            {{ form.numoutbf }}
+                                        </div>
+                                    
+                                </div>
+
+                                
+
+                                <div class="row">
+                                    
+                                        <div class= "col-md-4 form-field"> 
+                                            {{ form.ot.label_tag}}   
+                                            {{ form.ot}}
+
+                                        </div>
+                                        <div class= "col-md-4">
+                                            {{ form.ot_type.label_tag}}
+                                            <select class= "col-md-12 form-field" name="ot_type" id="id_ot_type">  
+                                                <option value="{{data.ot_type.cde}}"> {{data.ot_type}} </option>
+                                                {% for ot_type in ot_types %}
+                                                    <option class="select-field" value="{{ot_typs.cde}}"> {{ot_type}} </option>
+                                                {% endfor %}
+            
+                                            </select>
+                                            
+                                        </div>
+                                        <div class="col-md-4 form-field">
+                                            {{form.numot.label_tag}}
+                                            {{ form.numot }}
+                                        </div>
+                                   
+                                </div>
+
+                                
+
+                                <div class="row">
+                                    <div class= "col-md-12 form-field" >
+                                        {{form.remarks_other.label_tag}}
+                                        {{form.remarks_other}}
+                                    </div>
+                                   
+                                </div>
+                                
+                                <div class = "row" >
+                                    <div>
+                                        <button class = "button button-primary" onclick = "SaveAllData(this)"> บันทึก </button>  
+                                        <button button class = "button button-alert" onclick = "DeleteData(this)"> ลบรายการ </button>  
+                                    </div>
+                                </div>
+                          
+
+                    </div> 
+
+                    <div>  <!-- grid-3-->
+                       
+                    </div> 
+                    
+                    
+
+                    
+      
+                </div> <!-- end grid -->
+                
+               
+
+            </form>
+        </div>
+        
+      
+    </div>
+</section> 
+
+
+<script type='text/javascript'>
+    
+    function DeleteData(bt) {
+
+        var msg =   'ลบข้อมูลรายการนี้\n' + 
+                    'ท่านต้องการยืนยันหรือไม่?';
+        
+        if (!confirm(msg)) {  
+            return;
+        } else {
+
+                /*document.querySelector('form').submit() ;
+                alert('บันทึกข้อมูลเรียบร้อย')   ; */           
+        }
+    }
+    
+    function SaveAllData(bt) {
+
+        var msg =   'บันทึกข้อมูล\n' + 
+                    'ท่านต้องการยืนยันหรือไม่?';
+        
+        if (!confirm(msg)) {  
+            return;
+        } else {
+
+                document.querySelector('form').submit() ;
+                alert('บันทึกข้อมูลเรียบร้อย')   ;           
+        }
+    }
+
+
+    $(function () {
+    
+
+        $("#id_ta_date").datetimepicker({
+            format: 'd/m/Y',
+          });
+        
+        $("#id_timein")({
+            format: '%H:%M',
+          });
+        
+        $("#id_timeout")({
+            format: '%H:%M',
+          });
+
+        });
+
+</script>
+
+{% endblock %}

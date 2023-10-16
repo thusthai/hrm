@@ -1,0 +1,49 @@
+{% extends 'main.html' %} 
+
+{% load static %}
+
+{% block content %}
+<section class = "content-section content-section-single">
+        <div class="content-container content-container-narrow">                         
+                        <div class="col col-sm-10">
+                                <div class="alert alert-primary" role="alert">
+                                <h4 class="text-center"> ตั้งค่าข้อมูลเริ่มต้น</h4>
+                                </div>
+                        </div>
+                
+                        <div class = "row">
+
+                        <!-- img class="image-content" src = "{% static 'header/zlogo.png' %}" alt="" -->     
+                             
+                                
+                                        <div>
+                                                                
+                                                <a class="site-mainmenu-item" href="#">
+                                                        <img class = "site-image-icon" src="{% static 'header/icon-home.ico' %}" alt="">
+                                                        ข้อมูลบริษัท </a>     
+
+                                                <a class="site-mainmenu-item" href="{% url 'userlist' %} "> 
+                                                        <img class = "site-image-icon" src="{% static 'header/icon-user.png' %}" alt="">
+                                                        ข้อมูลผู้ใช้งานระบบ</a>    
+                                                        
+                                                <a class="site-mainmenu-item" href="#"> 
+                                                        <img class = "site-image-icon" src="{% static 'header/icon-document.png' %}" alt="">
+                                                        ข้อมูลกลุ่มเอกสาร</a>   
+                                                <a class="site-mainmenu-item" href="#"> 
+                                                        <img class = "site-image-icon" src="{% static 'header/icon-doc.ico' %}" alt="">
+                                                        ข้อมูลเลขเอกสารเริ่มต้น </a>   
+                                                <a class="site-mainmenu-item" href="#"> 
+                                                        <img class = "site-image-icon" src="{% static 'header/icon-department.png' %}" alt="">
+                                                        ข้อมูลแผนก</a>     
+                                        
+                                        </div>    
+                                      
+                        
+                        </div>
+                                                                                                                          
+                    
+       
+        </div>
+</section>
+
+{% endblock %} 

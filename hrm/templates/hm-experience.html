@@ -1,0 +1,131 @@
+
+{% extends 'main.html' %}
+{% load static %} 
+{% load humanize %}
+{% block content %}
+  
+<section class = "content-section-single">
+    <h6 class = "content-title text-center">EXPERIENCE DATA|{{empid}}  </h6>
+    <div class = "container">
+        <div class="row">
+            <nav class = "site-header-submenu">
+               
+                <a class = "site-header-submenu-item " href="{%url 'hm-edit' emptype depid empid %}"> ข้อมูลหลักพนักงาน </a>
+
+                {% if data.id != None %}  <!-- mean data.id exist on system else mean NEW data -->
+                <a class = "site-header-submenu-item " href="{% url 'hm-refer' emptype depid data.id %}"> ข้อมูลบุคคลอ้างอิง </a>
+                <a class = "site-header-submenu-item " href="{% url 'hm-education' emptype depid data.id %}"> ข้อมูลการศึกษา </a>      
+                <a class = "site-header-submenu-item " href="{% url 'hm-exper' emptype depid data.id %}"> ข้อมูลประสบการณ์ </a>
+              
+                <a class = "site-header-submenu-item " href="{% url 'hm-edit-income' emptype depid data.id %}" > ข้อมูลเงินได้ </a>
+                <a class = "site-header-submenu-item " href="{% url 'hm-inc-exp' emptype depid data.id %}" > รายการเงินได้/เงินหัก </a>
+                <a class = "site-header-submenu-item " href="{% url 'hm-deduction' emptype depid data.id %}" > รายการลดหย่อน </a>
+            {% endif %}
+
+            </nav>
+        </div>
+        <p class="content-title"> ข้อมูลประสบการณ์ </p>
+        <div class="table-responsive-sm">
+            <table class = "table table-sm table-light border-primary table-hover ">
+                <thead class="table-dark">
+                    <tr>
+                        <th> No </th>
+                        <th> Company </th>
+                        <th> Start Date </th>
+                        <th> Hire Date </th>
+                        <th> Position </th>
+                        <th> Duty </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {% for r in data %}
+                        <tr>
+                            <td class =""> 
+                                <a href="{%url 'hm-exper-edit' depid empid r.id %}" > {{ r.p_seq }} </a> 
+                            </td>
+                            <td class ="col-md-3" > {{ r.p_company }} </td>
+                            <td class ="col-md-1" > {{ r.p_startdte|date:"m/d/Y"}} </td>
+                            <td class ="col-md-1" > {{ r.p_enddte|date:"m/d/Y"}} </td>
+                            <td class ="col-md-2"> {{ r.p_position}} </td>
+                            <td class ="col-md-6"> {{ r.p_duty }} </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        
+        </div>
+        
+    
+            <form method="post">
+                {% csrf_token %}
+               
+                
+                <div class = "row">
+                    
+                    <div class="col-md-1 form-field"> 
+                        {{ form.p_seq.label_tag}}
+                        {{ form.p_seq }}
+                        {{ form.p_seq.errors}}
+                    </div>
+                    <div class="col-2 col-md-4 form-field">
+                        {{ form.p_company.label_tag}}
+                        {{ form.p_company }} 
+                        {{ form.p_company.errors}}
+                    </div>
+                    
+                    <div class="col-md-2 form-field">
+                        {{form.p_position.label_tag}}
+                        {{ form.p_position}}
+                    </div>
+                    <div class="col-md-5 form-field">
+                        {{form.p_duty.label_tag}}
+                        {{ form.p_duty }}
+                    </div>
+                </div>
+
+                <div>
+                    <button class = "button button-primary" onclick = "SaveAllData(this)"> บันทึก </button>  
+                </div>
+    
+            </form>
+
+    </div>
+    
+</section>
+
+<script>
+    function SaveAllData(bt) {
+
+        var msg =   'บันทึกข้อมูล\n' + 
+                    'ท่านต้องการยืนยันหรือไม่?';
+        
+        if (!confirm(msg)) {  
+            return;
+        } else {
+               
+            var p_company=document.getElementById("id_p_company").value ;
+            var result = Script_check_company(p_company);
+            if (result==true) {
+                document.querySelector('form').submit() ;
+                alert('บันทึกข้อมูลเรียบร้อย')   ;
+            } else {
+                alert ('ไม่ได้ระบุบริษัท กรุณาตรวจสอบ') ;
+            }
+           
+        }
+    
+    }
+
+    function Script_check_company(p_company) {
+        if (p_company.length == 0 )
+            return false ;
+        else 
+            return true ;
+
+    }
+
+</script>
+
+{% endblock %}

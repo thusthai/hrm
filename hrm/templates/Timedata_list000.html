@@ -1,0 +1,206 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load humanize %}
+{% load tz %}
+
+
+{% block title %} {{ msg }} {% endblock %}
+
+{% block content %} 
+
+  
+<section class = "content-section-single">
+    <div class = "content-container">
+        <h6 class = "content-title text-center"> TIME DATA LIST|บันทึกรายการเวลาเข้า-ออกประจำวัน| {{workdate}} </h6> 
+
+    
+        <div class = "row ">
+            <div class = "col-md-5">
+               
+                    <span class="step-links">
+
+                        <p>รายการที่ {{ page_obj.start_index }}—{{ page_obj.end_index }} 
+                            <span class="current">
+                                (หน้าที่ {{ page_obj.number }}/{{ page_obj.paginator.num_pages }})
+                            </span>
+                        </p>
+                    </span>
+                
+            </div>
+
+            <div class="col-md-1"></div>
+            <div class="col-md-3"></div>
+
+            <div class="col-md-3 text-right">
+                <span>
+                    {% if workdate != None %}
+                    
+                        <form class="form-inline my-2 my-lg-0" action="{% url 'timedata_filter_bydate' strcon workdate  %}">
+                            <input class="form-control mr-sm-2" type="search" placeholder="ระบุช้อความที่ต้องการ" aria-label="Search" name="q">                
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ค้นหา</button>
+                            
+                            
+                        </form>
+                    {% else %}
+                        <form class="form-inline my-2 my-lg-0" action="{% url 'timedata_filter' strcon  %}">
+                        
+                            <input class="form-control mr-sm-2" type="search" placeholder="ระบุช้อความที่ต้องการ" aria-label="Search" name="q">                
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ค้นหา</button>
+                            
+                            
+                        </form>
+                    {% endif %}
+                </span>
+            </div>
+      
+        </div>
+
+        
+        <div class="row">
+            <nav class = "site-header-submenu">
+                <a class = "site-header-submenu-item " href="{%url 'menu_time' %}"> 
+                    <ion-icon class="" name="arrow-back-circle-outline" size="small" ></ion-icon>
+                    ย้อนกลับ </a>
+             
+                <a class = "site-header-submenu-item " href="#"> Export </a>      
+                       
+            </nav>
+        </div>
+
+        <div class="row">
+            <table class = "table table-responsive-md table-sm th"> 
+                <thead class = "thead th">
+                  
+                    <tr>
+                        
+                        <th> ID#</th>
+                        <th> Date  </th>
+                        <th> Employee </th> 
+
+                        <th> SHIFT </th>
+                        <th> เข้างาน </th>
+                        <th> ออกงาน </th>
+                        <th> #OT  </th>
+                        <th> #Late  </th>              
+                        <th> #Out-BF </th>    
+                        <th> #LEAVE </th>
+                    
+                        <th> หมายเหตุ </th>
+                       
+                    </tr>
+                </thead>
+
+                {% for r in page_obj %}
+                
+                    <tr> 
+                        <td> <a href="{% url 'timedata_update' strcon r.id  %}">  {{ r.id }}  </a></td>              
+                        <!-- td class="col-md-2"> <a href="{% url 'hmdailytransactionupdate' r.id  %}"> {{ r.emp_cde }} </a></!-->                     
+                        
+                        <td class="col-md-1"> {{ r.ta_date|date:"d-m-Y" }} </td>
+                        <td class="col-md-3"> <a href="#"> {{ r.emp_cde }}  </a></td>
+                        <!-- td class = "col-md-1" > {{ r.workdate }} </!-->
+                        <td class ="" > {{r.shift }} </td>
+                        {% if r.timein != None %}
+                            <td class=""> {{ r.timein }} </td>
+                        {% else %}
+                            <td class= ""> </td>
+                        {% endif %}
+                        {% if r.timeout != None %}
+                            <td class=""> {{ r.timeout }} </td>
+                        {% else %}
+                            <td class= ""> </td>
+                        {% endif %}
+                        {% if r.numot > 0 %}
+                            <td class=""> {{ r.numot}} </td>
+                        {% else %}
+                            <td class= ""> </td>
+                        {% endif %}
+                        {% if r.numlate > 0 %}
+                            <td class=""> {{ r.numlate }} </td>                            
+                        {% else %}
+                            <td class= ""> </td>
+                        {% endif %}
+                        {% if r.numoutbf > 0 %}
+                            <td class=""> {{ r.numoutbf }} </td>
+                        {% else %}
+                            <td class= ""> </td>
+                        {% endif %}    
+                        {% if r.leavecode != None %} 
+                            <td class=""> {{r.leavecode}} </th>
+                        {% else %}
+                            <td class= ""> </td>
+                        {% endif %}
+                        {% if r.remarks_other == 'วันอาทิตย์' %}
+                        <!-- td class ="" > {{ r.period }} </!-->
+                            <td class="col-md-2"> {{r.period.cde}}-{{r.emp_cde.emp_dep.dep_code}}-{{ r.remarks_other }} </td>
+                        {% else %}
+                            <td class="col-md-2"> {{r.period.cde}}-{{r.emp_cde.emp_dep.dep_code}} </td>
+                        {% endif%}
+                    </tr>
+                
+                {% endfor %}
+
+            </table>
+                
+        </div>
+
+        <!-- แสดง pagination -->
+        
+        <div class="row">
+
+            <div class="grid grid-3 bg-warning">
+
+                <div class = "col-md-12">
+                    <div class="pagination"> 
+                       
+                        
+                        {% if page_obj.has_previous %}
+                        <a href="?page=1">&laquo;   หน้าแรก </a>
+                        {% if page_obj.previous_page_number != 1 %}
+                            <a href="?page={{ page_obj.previous_page_number }}"> ก่อนหน้า</a>
+                    
+                        {% endif %}
+                        {% endif %}
+
+                    
+            
+                        {% if page_obj.has_next %}
+                        
+                        {% if page_obj.next_page_number != paginator.num_pages %} 
+                            <a href="?page={{ page_obj.next_page_number }}"> ถัดไป </a>
+                        {% endif %}
+
+                        <a href="?page={{ page_obj.paginator.num_pages }}">หน้าสุดท้าย &raquo;</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-12"> </div>
+                <div class="col-md-12"> 
+                    <a class="page-link" data-href="?page={{paginator.num_pages}}" href="?page={{paginator.num_pages}}">Last</a>
+                   
+                </div>
+            </div> <!-- end Grid -->
+        </div>
+      
+    </div>
+</section> 
+
+<script>
+    // pagination
+    let pag = document.querySelectorAll('a.page-link')
+    console.log(pag.length)
+    let url = window.location
+
+    if (url.href.includes("?csrfmiddlewaretoken"))
+    {
+        for (let i = 0; i < pag.length; i++)
+        {
+            pag[i].href = url.search + pag[i].getAttribute("data-href").replace("?","&")
+            console.log(pag[i].getAttribute("data-href"))
+        }
+    } else {
+        console.log("not included")
+    }
+</script>
+
+{% endblock %} 

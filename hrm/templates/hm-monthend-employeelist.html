@@ -1,0 +1,111 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %} {{ msg }} {% endblock %}
+
+{% block content %} 
+
+  
+<section class = "content-section-single">
+    <div class = "content-container">
+        <h6 class = "content-title text-center"> EMPLOYEE LIST | {{emptype}} |{{ employeeDep }} </h6> 
+
+    
+        <div class = "row ">
+            <div class = "col-md-5">
+                <div class="pagination">
+                    <span class="step-links">
+                  
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo;   หน้าแรก </a>
+                            {% if page_obj.previous_page_number != 1 %}
+                                <a href="?page={{ page_obj.previous_page_number }}"> ก่อนหน้า</a>
+                        
+                            {% endif %}
+                        {% endif %}
+
+                        <span class="current">
+                            (หน้าที่ {{ page_obj.number }}/{{ page_obj.paginator.num_pages }}.)
+                        </span>
+                
+                        {% if page_obj.has_next %}
+                            
+                            {% if page_obj.next_page_number != paginator.num_pages %} 
+                                <a href="?page={{ page_obj.next_page_number }}"> ถัดไป </a>
+                            {% endif %}
+
+                            <a href="?page={{ page_obj.paginator.num_pages }}">หน้าสุดท้าย &raquo;</a>
+                        {% endif %}
+
+                        <p>รายการที่ {{ page_obj.start_index }}—{{ page_obj.end_index }}</p>
+                    
+          
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-1"></div>
+            <div class="col-md-2"></div>
+
+            <div class="col-md-4">
+                <form class="form-inline my-2 my-lg-0" action="{% url 'employeesearch' emptype depid  %}">
+                    <input class="form-control mr-sm-2" type="search" placeholder="ระบุช้อความที่ต้องการ" aria-label="Search" name="q">                
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ค้นหา</button>
+                    
+                    
+                </form>
+
+            </div>
+      
+        </div>
+
+        
+        <div class="row">
+            <nav class = "site-header-submenu">
+                <a class = "site-header-submenu-item " href="{%url 'monthenddashboard'%}"> 
+                    <ion-icon class="" name="arrow-back-circle-outline" size="small" ></ion-icon>
+                    ย้อนกลับ </a>
+               
+                 
+                       
+            </nav>
+        </div>
+
+        <div class="row">
+            <table class = "table table-responsive-md table-sm th"> 
+                <thead class = "thead th">
+                  
+                    <tr>
+                        
+                        <th> ID#</th>
+                        <th> รหัสพนักงาน </th>
+                        <th> ชื่อ-สกุล  </th>
+                        <th> แผนก  </th>
+                        
+                        <th> ตำแหน่งงาน </th>
+                    </tr>
+
+                </thead>
+
+                    {% for r in page_obj %}
+                    
+                        <tr> 
+                            <td> <a href="{% url 'monthendemployeetransaction' emptype r.id %}">  {{ r.id }}  </a></td>              
+                            <td class="col-md-1"> <a href="#">{{ r.emp_cde }} </#></td>
+                            <td class="col-md-5"> {{ r.emp_name }} </td>  
+                            <td class="col-md-3"> {{ r.emp_dep }} </td>                     
+                            <td class="col-md-3"> {{ r.emp_position }} </td>  
+                                     
+                        </tr>
+                    
+                    {% endfor %}
+
+            </table>
+        </div>
+        
+      
+    </div>
+</section> 
+
+{% endblock %} 

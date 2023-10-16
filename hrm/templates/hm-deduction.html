@@ -1,0 +1,144 @@
+
+{% extends 'main.html' %}
+{% load static %} 
+{% load humanize %}
+ 
+
+{% block content %} 
+<section class = "content-section-single">
+    <h6 class = "content-title text-center"> Employee | {{emp_cde}}  </h6>
+    <div class = "container">
+        <div class="row">
+            <nav class = "site-header-submenu">
+                <a class = "site-header-submenu-item " href="{%url 'hm-edit' emptype depid emp_id %}"> ข้อมูลหลักพนักงาน </a>
+
+             
+                {% if data.id != None %}  <!-- mean data.id exist on system else mean NEW data -->
+                    <a class = "site-header-submenu-item " href="{% url 'hm-refer' emptype depid data.id %}"> ข้อมูลบุคคลอ้างอิง </a>
+                    <a class = "site-header-submenu-item " href="{% url 'hm-education' emptype depid data.id %}"> ข้อมูลการศึกษา </a>      
+                    <a class = "site-header-submenu-item " href="{% url 'hm-exper' emptype depid data.id %}"> ข้อมูลประสบการณ์ </a>
+                  
+                    <a class = "site-header-submenu-item " href="{% url 'hm-edit-income' emptype depid data.id %}" > ข้อมูลเงินได้ </a>
+                    <a class = "site-header-submenu-item " href="{% url 'hm-inc-exp' emptype depid data.id %}" > รายการเงินได้/เงินหัก </a>
+                    <a class = "site-header-submenu-item " href="{% url 'hm-deduction' emptype depid data.id %}" > รายการลดหย่อน </a>
+                {% endif %}
+            </nav>
+          
+            <div class="row">
+                <p class="content-title"> ข้อมูลการลดหย่อน </p>
+                <div class="row">
+                        
+                    <div class= "table-responesive-sm col-md-10" >
+                        <table class = "table table-sm table-border border-secondary">      
+                            <thead class= "table-dark">
+                                <tr>
+                                
+                                    <th> Description  </th>
+                                    <th class= "text-right"> จำนวน  </th>
+                                    <th class= "text-right" > ลดหย่อน </th>
+                                    <th class= "text-right"> สูงสุดไม่เกิน</th>
+                                   
+                                 
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% if data != None %}
+                                    {% for r in data %}
+                                    <tr>
+                                        <td class ="col-md-5"> {{r.deduct_cde }} </td>
+                                        <td class=" col-md-1 text-right"> {{r.num }} </td>
+                                        
+
+                                        {% if r.deduct_cde.calamt == True %}
+                                            <td class="col-md-1 text-right"> {{ r.deduct_cde.amt |floatformat:2|intcomma }} </td>
+                                        {% else %}
+                                            <td class="col-md-1  text-right"> {{ r.deduct_cde.percent |floatformat:2|intcomma}} </td>
+                                        {% endif %}
+
+                                        <td class="col-md-1  text-right"> {{ r.deduct_cde.max |floatformat:2|intcomma}} </td>
+                                        
+                                    
+                                    </tr>
+                                    {% endfor %}   
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div> <!-- end of type of employee blog -->  
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.errors }}
+                    {{ form.non_field.errors }}
+                    
+                    <div class = "row" >
+                                            
+                        <div class="col-md-8">
+                                  
+                            <table class="table-responsive-sm">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-5"> Description  </th>
+                                        <th class="col-md-1"> จำนวน  </th>
+                                    </tr>
+                                </thead>
+                                <tbody> 
+                                    <tr>
+                                        <td class="col-md-5"> {{ form.deduct_cde }} </td>
+                                        <td class="col-md-1"> {{ form.num}} </td>
+                                  
+                                    </tr>
+                                </tbody>
+
+                            
+                            </table>
+
+                            <div class ="col-md-1"> 
+                                <button type="submit" class = "button button-primary" onclick = "SaveAllData()"> บันทึก </button>  
+                            </div>          
+                        </div>    
+                        
+
+                    </div>
+                   
+
+                    
+                </form>
+            </div>  <!-- end of income information -->
+            
+           
+        
+        </div>
+     
+    </div>
+    
+       
+
+         
+</section>
+
+<script type="text/javascript">
+   
+    
+    function SaveAllData(bt) {
+        var msg =   'บันทึกข้อมูล\n' + 
+                    'ท่านต้องการยืนยันหรือไม่? ' ;
+       
+        if (!confirm(msg)) {  
+                return;
+            } else {
+              
+                document.querySelector('form').submit() ;
+                alert('บันทึกข้อมูลเรียบร้อย') ;
+            
+            }
+              
+    }
+            
+    
+
+</script>
+
+{% endblock %}

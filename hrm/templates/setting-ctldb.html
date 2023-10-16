@@ -1,0 +1,70 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %} {{ msg }} {% endblock %}
+
+{% block content %} 
+
+  
+<section class = "content-section-single">
+    <div class = "content-container">
+        <h6 class = "content-title text-center"> INCOME & EXPENSE CONTROL DATA   </h6> 
+
+        <div class="row">
+            <nav class = "site-header-submenu">
+                <a class = "site-header-submenu-item " href="{%url 'hmhome' %}"> ย้อนกลับ </a>
+                <a class = "site-header-submenu-item " href="#"> เพิ่มข้อมูลใหม่ </a>
+                     
+            </nav>
+        </div>
+
+        <div class="row">
+            <table class = "table table-responsive-md table-sm th"> 
+                <thead class = "thead th">
+                  
+                    <tr>
+                        
+                        <th> ID#</th>
+                        <th> Code </th>
+                        <th> Description  </th>
+                        <th> Default  </th>
+                        <th> CAL-AUTO</th>
+                        <th> CAL-DAY </th>
+                        <th> CAL-HOUR </th> 
+                        <th> ONE-TIME </th> 
+
+                        <th> CAL-SOC </th>                 
+                        <th> CAL-TAX </th>      
+                        <th> DAILYRECORD </th> 
+                    </tr>
+                </thead>
+
+                    {% for r in data %}
+                    
+                        <tr> 
+                            <td class="col-md-1"> <a href="#">  {{ r.id }}  </a></td>              
+                            <td class="col-md-1"> {{ r.cde }} </td>
+                            <td class="col-md-3"> {{ r.desc }} </td>  
+                            <td class="col-md-1"> {{ r.defaultvalue|yesno }} </td>                     
+                            <td class="col-md-1"> {{ r.calauto|yesno }} </a></td>
+                            <td class="col-md-1"> {{ r.calday|yesno }} </td>  
+                            <td class="col-md-1"> {{ r.calhour|yesno }} </td>     
+                            <td class="col-md-1"> {{ r.onetime|yesno }} </td>
+                            <td class="col-md-1"> {{ r.calsoc|yesno }} </td>
+                            <td class="col-md-1"> {{ r.caltax|yesno }} </td>
+                            <td class="col-md-1"> {{ r.dailyrecord|yesno }} </td>
+                        </tr>
+                    
+                    {% endfor %}
+
+                    
+             
+            </table>
+        </div>
+        
+      
+    </div>
+</section> 
+
+{% endblock %} 

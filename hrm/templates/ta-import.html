@@ -1,0 +1,143 @@
+
+{% extends 'main.html' %}
+{% load static %} 
+{% load humanize %}
+{% block content %}
+  
+<section class = "content-section-single">
+<div class="container" >
+    <h6 class = "content-title text-center"> IMPORT TIME </h6>
+    <!-- class for modal activate -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">IMPORT TIME DATA | {{ emptype }} </h4>
+                   
+                </div>
+      
+                <div class="modal-body">
+                    <form id="form-data" method="post" >
+                        {% csrf_token %}
+
+                        <!-- div class = "col-md-5 form-field">
+                            ประเภทพนักงาน {{ emptype }}
+                            <select class = "form-field" name="emptype" id = "id_emptype">
+                                <option value = "{{emptype}}" > {{ emptype }} </option>
+                                {% for item in emptypes %}
+                                    <option class ="select-field" id= "id_emptype" value="{{item.cde}}"> {{ item }} </option>
+                                {% endfor %}
+                            </select>    
+
+                        </!-->
+                        
+                        <div class = "col-md-7 form-field"> 
+                                {{ form.period.label_tag }}
+                                <select class = "col-md-10 form-field" name="period" id = "id_period">
+                                    <option value = "{{period}}" > {{ period }} </option>
+                                    {% for item in periods %}
+                                        <option class ="select-field" id= "id_period" 
+                                        value="{{item.cde}}"> {{ item }} </option>
+                                    {% endfor %}
+                                </select>   
+                                {{ form.errors }} 
+                        </div>
+                         
+
+                        <div class='' name ="startdate" id = "id_startdate" > 
+                            
+                            <div class = "col-md-5 form-field"> 
+                             
+                                START DATE {{ form.startdate }} 
+                        
+                            </div>
+                        </div> 
+
+                        <div class = "col-md-5 form-field" id = "id_enddate">
+                                END DATE {{ form.enddate }}
+                        
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" onclick= "runimport(this)">Go</button>
+                        </div>   
+                    
+                    </form>
+
+                    <!-- button type="button" class="close" data-dismiss="modal">&times;</!-->
+                </div>
+      
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- end of modal -->
+      
+    <!-- #Add a button that will trigger the modal: -->
+    <div class ="row">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            Run
+        </button>
+    </div>
+    <br>
+    <br>
+    <div> </div>
+</div>
+
+</section>
+
+<script type="text/javascript">
+    
+    
+
+
+    function SaveAllData(bt) {
+        var msg =   'บันทึกข้อมูล\n' + 
+                    'ท่านต้องการยืนยันหรือไม่?';
+        
+        if (!confirm(msg)) {  
+                return;
+            } else {
+                document.querySelector('form').submit() ;
+                alert('บันทึกข้อมูลเรียบร้อย') ;
+            }
+    
+        }
+    
+    function runimport(bt) {
+        /* const myForm = document.getElementById("form-data");
+        const startdate = document.getElementById('id_startdate');
+        const enddate = document.getElementById('id_enddate');
+        
+        var div = document.createElement('div');
+
+        cont.appendChild(div);
+        */
+        var msg = 'Confirm Process...' ;
+        var myForm = document.getElementById("form-data")
+        var startdate = document.getElementById('id_startdate').value ;
+        var enddate = document.getElementById('id_enddate').value ;
+        var emptype = document.getElementById('id_emptype').value ;
+
+        console.log(emptype , startdate );
+        
+        var msgcfm = 'START PROCESS ' + emptype + ' ' + startdate + '-' + enddate ; 
+        /* st_date.innerHTML = st_date */
+
+        if (confirm(msg)) {
+            alert (msgcfm) ;  /* go to views to process data by create url-redirect */
+            return ;
+            
+        } 
+        else {
+            alert ('Do nothing...') ;
+            return ;
+        }
+
+    }
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,221 @@
+
+{% extends 'main.html' %}
+{% load static %} 
+{% load humanize %}
+ 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
+<script type='text/javascript' src='https://code.jquery.com/jquery-1.12.4.min.js' crossorigin="anonymous"></script>
+
+
+{% block content %} 
+<section class = "content-section-single">
+    <h6 class = "content-title text-center"> Employee | {{empmas.emp_cde}} {{empmas.emp_name}}  </h6>
+    <div class = "container">
+        <div class="row">
+            <nav class = "site-header-submenu">
+                <a class = "site-header-submenu-item " href="{% url 'hm-edit' emptype depid id %}"> ข้อมูลหลักพนักงาน </a>
+
+                {% if data.id != None %}  <!-- mean data.id exist on system else mean NEW data -->
+                    <a class = "site-header-submenu-item " href="{% url 'hm-refer' emptype depid id %}"> บุคคลอ้างอิง </a>
+                    <a class = "site-header-submenu-item " href="{% url 'hm-education' emptype depid id %}"> การศึกษา </a>      
+                    <a class = "site-header-submenu-item " href="{% url 'hm-exper' emptype depid id %}"> ประสบการณ์ </a>
+                    {% if is_admin == True %}
+                        <a class = "site-header-submenu-item " href="{% url 'hm-edit-income' emptype depid id %}" > เงินได้ </a>
+                        <a class = "site-header-submenu-item " href="{% url 'hm-inc-exp' emptype depid id%}" > เงินได้/เงินหัก</a>
+                        <a class = "site-header-submenu-item " href="{% url 'hm-deduction' emptype depid id %}" > ลดหย่อน </a>
+                    {% endif %}
+                {% endif %}
+            </nav>
+            <!-- div class="row">
+     
+                <div class ="col-md-5">
+                    <label>กรอกเลขบัตร </label>
+                    <input type="number" name="emp_cardid" id="id_emp_cardid" class="form-field" maxlength="13">
+                    <span class="error"></span>
+                </div>
+                    
+            </!-->
+
+            <div class="row">
+                <p class="content-title"> ข้อมูลเงินได้ </p>
+                <div class="row">
+                        
+                    <div class= "table-responesive-sm" >
+                        <table class = "table table-sm table-border border-secondary">      
+                            <thead class= "table-dark">
+                                <tr>
+                                
+                                    <th> ประเภทพนักงาน  </th>
+                                    <th> วันทำงาน/งวด  </th>
+                                    <th> ชม. ทำงาน/วัน  </th>
+                                    <th> #งวดจ่าย/ปี  </th>
+                                    <th> คิด PND-1  </th>
+                                    <th> คิด SSO  </th>
+                                    <th> คิด PND-3  </th>
+                                    <th> RATE PND-3  </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td> {{empmas.emp_type.desc }} </td>
+                                    <td class="text-center"> {{empmas.emp_type.workday }} </td>
+                                    <td class="text-center"> {{empmas.emp_type.workhour }} </td>
+                                    <td class="text-center"> {{empmas.emp_type.paymentterm }} </td>
+                                    <td class="text-center"> {{empmas.emp_type.pnd1 }} </td>
+                                    <td class="text-center"> {{empmas.emp_type.sso }} </td>
+                                    <td class="text-center"> {{empmas.emp_type.pnd3 }} </td>
+                                    <td class="text-center"> {{empmas.emp_type.pnd3rate|floatformat:2|intcomma}} </td>
+                                </tr>    
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div> <!-- end of type of employee blog -->  
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.errors }}
+                    {{ form.non_field.errors }}
+                    
+                    <div class = "grid grid-3">
+                        <div class="item-center">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="text-center"> <u> ปัจจุบัน </u></p>
+                                        
+                                
+                                    <div class="col-md-12 form-field">
+                                        {{ form.emp_income.label_tag }}
+                                        {{ form.emp_income }} 
+                                    </div>
+                                    <div class="col-md-12 form-field">
+                                        {{ form.emp_income_d.label_tag }}
+                                        {{ form.emp_income_d }} 
+                                    </div>
+                                    <div class="col-md-12 form-field">
+                                        {{ form.emp_income_h.label_tag }}
+                                        {{ form.emp_income_h }} 
+                                    </div>                        
+                                    <div class="col-md-12 form-field">
+                                        {{ form.emp_soc.label_tag }}
+                                        {{ form.emp_soc}}
+                                        
+                                    </div>
+                                    <div class="col-md-12 form-field">
+                                        {{ form.emp_tax.label_tag }}
+                                        {{ form.emp_tax}}
+                                        
+                                    </div>
+                                </div>   
+                            </div>  
+
+                            <div class="row" >    
+                                <div class="col-md-12">
+                                    <p class="text-center"><u> ยอดสะสม-ปัจจุบัน </u> <p>
+                                                    
+                                    <div class="col-md-12 form-field">
+                                    
+                                    {{form.emp_cum_income.label_tag}} {{ form.emp_cum_income }} 
+                                    </div>
+                                                            
+                                    <div class="col-md-12 form-field">
+                                        {{ form.emp_cum_soc.label_tag }}
+                                        {{ form.emp_cum_soc}}
+                                        
+                                    </div>
+                                    <div class="col-md-12 form-field">
+                                        {{ form.emp_cum_tax.label_tag }}
+                                        {{ form.emp_cum_tax}}
+                                        
+                                    </div>
+                                </div>    
+                            </div>
+                            
+                             
+
+                            
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="text-center"> <u> ยอดยกมา </u> <p>
+                                                    
+                                    <div class="col-md-12 form-field">
+                                        {{ form.em_bf_inc.label_tag }}
+                                        {{ form.em_bf_inc }} 
+                                    </div>
+                                                            
+                                    <div class="col-md-12 form-field">
+                                        {{ form.em_bf_soc.label_tag }}
+                                        {{ form.em_bf_soc}}
+                                        
+                                    </div>
+                                    <div class="col-md-12 form-field">
+                                        {{ form.em_bf_tax.label_tag }}
+                                        {{ form.em_bf_tax}}
+                                        
+                                    </div>
+                                </div>
+                            </div>    
+                        </div>
+
+                    </div>
+                   
+
+                    <div> 
+                        <button type="submit" class = "button button-primary" onclick = "SaveAllData()"> บันทึก </button>  
+                    </div>
+                </form>
+            </div>  <!-- end of income information -->
+            
+            <!-- start data of tbl_inc_exp_db ข้อมูลรายการเงินได้ เงินหัก เฉพาะตัวของพนักงาน ใช้เพื่อคำนวนเงินได้แต่ละงวด-->
+            <div class="row">
+                <div class="table-responsive-sm">
+                    <table class ="table table-sm">
+                        <thead>
+                            <tr>
+                                <th> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> </td>
+                            </tr>
+                        </tbody>    
+                    </table>
+                </div>
+
+            </div> <!-- end of data tbl_inc_exp_db -->
+        
+        </div>
+     
+    </div>
+    
+       
+
+         
+</section>
+
+<script type="text/javascript">
+   
+    
+    function SaveAllData(bt) {
+        var msg =   'บันทึกข้อมูล\n' + 
+                    'ท่านต้องการยืนยันหรือไม่? ' ;
+       
+        if (!confirm(msg)) {  
+                return;
+            } else {
+              
+                document.querySelector('form').submit() ;
+                alert('บันทึกข้อมูลเรียบร้อย') ;
+            
+            }
+              
+    }
+            
+    
+
+</script>
+
+{% endblock %}

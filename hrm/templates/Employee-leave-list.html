@@ -1,0 +1,133 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load humanize %}
+{% load tz %}
+
+{% block title %} {{ msg }} {% endblock %}
+
+{% block content %} 
+
+  
+<section class = "content-section-single">
+    <div class = "container">
+        <h6 class = "content-title text-center"> LEAVE LIST|บันทึกรายการลาประจำวัน </h6> 
+
+        
+        <div class = "row ">
+            <div class = "col-md-5">
+                <div class="pagination">
+                    <span class="step-links">
+                  
+                        <p>รายการที่ {{ page_obj.start_index }}—{{ page_obj.end_index }} 
+                            <span class="current">
+                                (หน้าที่ {{ page_obj.number }}/{{ page_obj.paginator.num_pages }})
+                            </span>
+                        </p>
+
+                        <span class="current">
+
+                            {% if page_obj.has_previous %}
+                                    <a href="?page=1&q={{request.GET.q}}">&laquo;   หน้าแรก </a>
+                                    {% if page_obj.previous_page_number != 1 %}
+                                        <a href="?page={{ page_obj.previous_page_number }}&q={{request.GET.q}}"> ก่อนหน้า</a>
+                                
+                                    {% endif %}
+                            {% endif %}
+                            {% if page_obj.has_next %}
+                                    
+                                    {% if page_obj.next_page_number != paginator.num_pages %} 
+                                        <a href="?page={{ page_obj.next_page_number }}&q={{request.GET.q}} "> ถัดไป </a>
+                                    {% endif %}
+
+                                    <a href="?page={{ page_obj.paginator.num_pages }}&q={{request.GET.q}} ">หน้าสุดท้าย &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-1"></div>
+            <div class="col-md-2"></div>
+
+            <div class="col-md-4">
+                <form class="form-inline my-2 my-lg-0" action="{% url 'emptranleave_filter' %}">
+                    <input class="form-control mr-sm-2" type="search" placeholder="ระบุช้อความที่ต้องการ" aria-label="Search" name="q">                
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ค้นหา</button>
+                    
+                    
+                </form>
+
+            </div>
+      
+        </div>
+
+        
+        <div class="row">
+            <nav class = "site-header-submenu">
+                <a class = "site-header-submenu-item " href="{% url 'menu_hm' %}"> 
+                    <ion-icon class="" name="arrow-back-circle-outline" size="small" ></ion-icon>
+                    ย้อนกลับ </a>
+                <a class = "site-header-submenu-item " href="{% url 'emptranleave_new' %}">
+                    <ion-icon class="" name="person-add-outline" size="small" ></ion-icon> 
+                    เพิ่มข้อมูลใหม่ </a>
+                <a class = "site-header-submenu-item " href="#"> Export </a>      
+                       
+            </nav>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <table class = "table table-responsive-md table-sm th"> 
+                    <thead class = "thead th">
+                    
+                        <tr>
+                            
+                            <th> ID#</th>
+                            <th> Leave Date </th> 
+                            <th> Employee  </th>
+                            
+                            <th> ลา </th>
+                            <th> Start time </th>
+                            <th> End time </th>
+                            <th> Reason </th>
+                            <th> Leave-type  </th>              
+                            <th> Pay </th>    
+                    
+                        
+                        </tr>
+                    </thead>
+
+                    
+                    {% for r in page_obj %}
+                        
+                        <tr> 
+                            <td> <a href="{% url 'emptranleave_edit' r.id %}">  {{ r.id }}  </a></td>              
+                            <td class="col-md-1"> {{ r.leavedate }} </td>
+                            <td class="col-md-3"> <a href="#"> {{ r.emp_cde }} </a></td>
+                            
+                            <td class = "col-md-1" > {{ r.leavecode.leavecode }} </td>
+                        
+
+                            <td class=""> {{ r.starttime }} </td>
+                            <td class=""> {{ r.endtime }} </td>
+                            <td class=""> {{ r.reason}} </td>
+                        
+                            <td class=""> {{ r.leave_type}} </td>                            
+                            <td class=""> {{ r.pay }} </td>       
+                            
+                            
+                        </tr>
+                        
+                    {% endfor %}
+                    
+                            
+                
+                </table>
+            
+            </div>
+        </div>
+      
+    </div>
+</section> 
+
+{% endblock %} 

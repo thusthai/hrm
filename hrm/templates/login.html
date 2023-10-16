@@ -1,0 +1,54 @@
+{% extends "main.html" %}
+{% load static %} 
+
+{% block content %}      
+
+{% load crispy_forms_tags %}
+
+<!--Login--> 
+<section class="content-section content-section-single">       
+          <div class="container">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+              
+              <div class="col-md-3 col-lg-1 col-xl-1 offset-xl-1" >
+                <img class = "image-icon-brand" src="{% static 'header/login_key.png' %}" alt="">
+              </div>
+
+              <div class="col-md-9 col-lg-7 col-xl-6 offset-xl-1">
+              
+                <form method="POST">
+          
+                  {% csrf_token %}
+          
+                  <!-- {{ login_form|crispy }} -->
+
+            
+                  <div class = "form-field-login">
+                    {{ login_form.username.label_tag}}
+                    {{ login_form.username }}
+                  </div>
+                  <div class = "form-field-login">
+                    {{ login_form.password.label_tag}}
+                    {{ login_form.password }}
+                  </div>
+               
+                  <div>
+                    <button class="button button-primary" type="submit">เข้าสู่ระบบ</button>
+                  </div>
+                  
+                </form>
+              </div>
+
+              
+                
+              
+
+            </div>
+          </div>
+          
+      
+</section>
+
+
+
+{% endblock %}

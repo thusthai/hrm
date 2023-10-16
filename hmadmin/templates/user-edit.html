@@ -1,0 +1,163 @@
+
+{% extends 'main.html' %}
+{% load static %} 
+{% load humanize %}
+
+{% block content %}
+
+
+<section class = "content-section content-section-single">
+    <div class="content-container">
+        <nav class = "site-header-submenu">
+          
+            <a class = "col-md-1 site-header-item-submenu" href="{% url 'userlist' %}"> User-List</a>           
+           
+        </nav>
+        <div class="row">
+               
+            <div class="col-sm-4">
+                <!--img class = "image-icon-brand" src="{% static 'header/login_key.png' %}" alt="" !-->
+                
+                <form class="form-field" method="post">
+                    {% csrf_token %}
+                    {{ form.errors }}
+                    {{ form.non_field.errors }}
+
+                    
+                    <div class = "form-field">
+                        
+                        ชื่อผู้ใช้งาน: {{form.username}}
+                    </div>
+
+                    <div class="form-field">
+                        {{ form.email.label_tag }}
+                        {{ form.email }}
+                    </div>
+                    
+                    <!-- div class="form-field">
+                        
+                        ชื่อ: {{ form.first_name }} นามสกุล: {{ form.last_name }}
+                    </!-->
+                    
+
+                    <div class="form-field">
+                        แผนก/หน่วยงาน 
+                        <select class="col-md-12 form-field" name="dep" id="selectdepartment">
+                            <option value="{{ data.dep.id}}">{{ data.dep }}</option>
+                            {% for dep in deps %} 
+                                <option class = "select-field" id="selectdepartment" 
+                                    value="{{dep.id}}"> {{ dep}}
+                                </option>
+                            {% endfor %}
+                        </select>    
+                        
+                    </div>
+
+                    
+                    <div class="row">
+                        <div class=" col-sm-3 form-field">
+                            {{ form.is_superuser.label_tag }}
+                            {{ form.is_superuser }}
+                        </div>
+                        <div class="col-sm-3 form-field">
+                            {{ form.is_active.label_tag }}
+                            {{ form.is_active }}   
+                        </div>
+                    
+                        <div class="col-sm-3 form-field">
+                            {{ form.is_staff.label_tag }}
+                            {{ form.is_staff }}
+                        </div>
+                    </div>
+                    
+                    <div> <p> </p> </div>
+
+                    <div class="">
+                        <button class="btn btn-primary" type="submit" onclick="SaveData()"> บันทึก </button>
+                    </div>
+
+                </form>    
+            </div>        
+
+            <!-- application list for user-->            
+            <div class="col-md-8">
+                <div class="table-responsive-xl">
+                    <table class="table table-sm border-primary table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th class=""> App/Content </th>
+                                <th> Access </th>
+                                <th> Admin </th>
+                                <th> Add </th>
+                                <th> Edit </th>
+                                <th> Delete </th>
+                                <th> View </th>
+                                <th> Approve</th>
+                                <th> Authorize</th>
+                                <th>
+                                    <button>
+                                        <a class = "" href="{% url 'adduserapp' data.id %}"> + </a> 
+                                    </button> 
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            
+                            {% for app in applist %}
+                            <tr>
+                                <td> 
+                                    <a href="{% url 'edituserapp' app.user_id app.content_type.id %}">                                              
+                                        {{ app.content_type }} </a>
+                                </td>
+                                <td> {{ app.is_access }} </td>
+                                <td class=""> {{ app.is_admin}} </td>
+                                <td class=""> {{ app.is_add}} </td>
+                                <td class=""> {{ app.is_edit}} </td>
+                                <td class=""> {{ app.is_delete }} </td>
+                                <td class=""> {{ app.is_view }} </td>
+                                <td class=""> {{ app.is_approve }} </td>
+                                <td class=""> {{ app.is_authorize }} </td>
+                                
+                                  
+                            </tr>
+                            
+                            {% endfor %}
+                        
+                        </tbody>
+                        
+                    </table>
+
+                    
+                </div>
+            </div>
+            <!-- end app list-->
+        </div>   
+        
+    </div>  
+
+</section>
+
+
+<script>
+    function SaveData() {
+       
+    var msg =   'บันทึกข้อมูล\n' + 
+                'ท่านต้องการยืนยันหรือไม่?';
+
+    if (!confirm(msg)) {  
+            return;
+        } else {
+
+   
+
+        }
+
+    }
+
+
+   
+
+</script>
+
+{% endblock %}

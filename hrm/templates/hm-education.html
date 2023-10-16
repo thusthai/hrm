@@ -1,0 +1,138 @@
+
+{% extends 'main.html' %}
+{% load static %} 
+{% load humanize %}
+{% block content %}
+  
+<section class = "content-section-single">
+    <h6 class = "content-title text-center">EDUCATION DATA|{{empid}}  </h6>
+    <div class = "container">
+        <div class="row">
+            <nav class = "site-header-submenu">
+                <a class = "site-header-submenu-item " href="{%url 'hm-edit' emptype depid empid %}"> ข้อมูลหลักพนักงาน </a>
+
+                {% if data.id != None %}  <!-- mean data.id exist on system else mean NEW data -->
+                    <a class = "site-header-submenu-item " href="{% url 'hm-refer' emptype depid data.id %}"> ข้อมูลบุคคลอ้างอิง </a>
+                    <a class = "site-header-submenu-item " href="{% url 'hm-education' emptype depid data.id %}"> ข้อมูลการศึกษา </a>      
+                    <a class = "site-header-submenu-item " href="{% url 'hm-exper' emptype depid data.id %}"> ข้อมูลประสบการณ์ </a>
+                  
+                    <a class = "site-header-submenu-item " href="{% url 'hm-edit-income' emptype depid data.id %}" > ข้อมูลเงินได้ </a>
+                    <a class = "site-header-submenu-item " href="{% url 'hm-inc-exp' emptype depid data.id %}" > รายการเงินได้/เงินหัก </a>
+                    <a class = "site-header-submenu-item " href="{% url 'hm-deduction' emptype depid data.id %}" > รายการลดหย่อน </a>
+                {% endif %}
+            </nav>
+        </div>
+        <p class="content-title"> ข้อมูลประวัติการศึกษา </p>
+        <div class="table-responsive-sm">
+            <table class = "table table-sm table-light border-primary table-hover ">
+                <thead class="table-dark">
+                    <tr>
+                        <th> ลำดับ </th>
+                        <th> สถาบัน</th>
+                        <th> ระดับการศึกษา </th>
+                        <th> ปีที่จบการศึกษา </th>
+                        <th> คณะหรือวิชาเอก </th>
+                        <th> เกรดเฉลี่ย </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {% for r in data %}
+                        <tr>
+                            <td class ="col-md-1"> 
+                                <a href="{%url 'hm-education-edit' depid empid r.id %}" > {{ r.p_seq }} </a> 
+                            </td>
+                            <td class ="col-md-3" > {{ r.p_institue }} </td>
+                            <td class ="col-md-2" > {{ r.p_level}} </td>
+                            <td class ="col-md-2" > {{ r.p_year}} </td>
+                            <td class ="col-md-3"> {{ r.p_major}} </td>
+                            <td class ="col-md-1"> {{ r.p_gpa }} </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        
+        </div>
+        
+    
+            <form method="post">
+                {% csrf_token %}
+               
+                
+                <div class = "row">
+                    
+                    <div class="col-md-1 form-field"> 
+                        {{ form.p_seq.label_tag}}
+                        {{ form.p_seq }}
+                        {{ form.p_seq.errors}}
+                    </div>
+                    <div class="col-md-3 form-field">
+                        {{ form.p_institue.label_tag}}
+                        {{ form.p_institue }} 
+                        {{ form.p_institue.errors}}
+                    </div>
+                    
+                    <div class="col-md-2 form-field">
+                        {{ form.p_level.label_tag }}
+                        {{ form.p_level}}
+                    </div>
+                    <div class="col-md-2 form-field">
+                        {{ form.p_year.label_tag }}
+                        {{ form.p_year }}
+                    </div>
+                    <div class="col-md-3 form-field">
+                        {{form.p_major.label_tag}}
+                        {{ form.p_major }}
+                    </div>
+                   
+                    <div class="col-md-1 form-field">
+                        {{form.p_gpa.label_tag}}
+                        {{ form.p_gpa }}
+                    </div>
+                </div>
+
+                <div>
+                    <button class = "button button-primary" onclick = "SaveAllData(this)"> บันทึก </button>  
+                </div>
+    
+            </form>
+
+    </div>
+    
+</section>
+
+<script>
+    function SaveAllData(bt) {
+
+        var msg =   'บันทึกข้อมูล\n' + 
+                    'ท่านต้องการยืนยันหรือไม่?';
+        
+        if (!confirm(msg)) {  
+            return;
+        } else {
+               
+            var p_institue=document.getElementById("id_p_institue").value ;
+            var result = Script_check_company(p_institue);
+            if (result==true) {
+                document.querySelector('form').submit() ;
+                alert('บันทึกข้อมูลเรียบร้อย')   ;
+            } else {
+                alert ('ไม่ได้ระบุข้อมูลสถาบัน กรุณาตรวจสอบ') ;
+            }
+           
+        }
+    
+    }
+
+    function Script_check_company(p_institue) {
+        if (p_institue.length == 0 )
+            return false ;
+        else 
+            return true ;
+
+    }
+
+</script>
+
+{% endblock %}

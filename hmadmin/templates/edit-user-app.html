@@ -1,0 +1,73 @@
+
+{% extends 'main.html' %}
+{% load static %} 
+{% load humanize %}
+
+{% block content %}
+
+
+<section class = "content-section content-section-single">
+    <div class="content-container">
+        <nav class = "site-header-submenu">
+          
+            <a class = "col-md-1 site-header-item-submenu" href="{% url 'userlist' %}"> Back </a>           
+            <p> {{ edituser }} | {{ editapp }} </p>
+        </nav>
+
+        <div class="row">
+               
+            <div>
+                <!--img class = "image-icon-brand" src="{% static 'header/login_key.png' %}" alt="" !-->
+                
+                <form class="form-field" method="post">
+                    {% csrf_token %}
+                    {{ form.errors }}
+                   
+                
+                        
+                        <div  class ="col-md-3 text-right form-field" > Is Access Menu: {{ form.is_access }} </div> 
+                        <div  class ="col-md-3 text-right form-field" > Is Admin: {{ form.is_admin }} </div> 
+                        <div  class ="col-md-3 text-right form-field">  Is Add: {{ form.is_add }}</div>
+                        <div  class ="col-md-3 text-right form-field">  Is Edit: {{ form.is_edit }}</div>
+                        <div  class ="col-md-3 text-right form-field">  Is Delete: {{ form.is_delete }}</div>
+                        <div  class ="col-md-3 text-right form-field">  Is View: {{ form.is_view }}</div>
+                        <div  class ="col-md-3 text-right form-field">  Is Approve: {{ form.is_approve }}</div>
+                        <div  class ="col-md-3 text-right form-field">  Is Authorize: {{ form.is_authorize }}</div>
+
+                    <div class="">
+                        <button class="btn btn-primary" type="submit" onclick="SaveData()"> บันทึก </button>
+                    </div>
+
+                </form>    
+            </div>        
+
+            
+        </div>   
+        
+    </div>  
+
+</section>
+
+
+<script>
+    function SaveData() {
+       
+    var msg =   'บันทึกข้อมูล\n' + 
+                'ท่านต้องการยืนยันหรือไม่?';
+
+    if (!confirm(msg)) {  
+            return;
+        } else {
+
+   
+
+        }
+
+    }
+
+
+   
+
+</script>
+
+{% endblock %}

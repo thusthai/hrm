@@ -1,0 +1,74 @@
+
+{% extends 'main.html' %}
+{% load static %} 
+{% load humanize %}
+{% block content %}
+  
+<section class = "content-section-single">
+    <h6 class = "content-title text-center"> Employee Person Reference  </h6>
+    <div class = "container">
+        <div class="row">
+            <nav class = "site-header-submenu">
+                <a class = "site-header-submenu-item " href="{%url 'hm-refer' data.emp_type depid empid %}"> ย้อนกลับ </a>
+               
+              
+            </nav>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+          
+            
+            <div class = "">
+                
+                <div class="col-md-1 form-field"> 
+                    {{ form.p_seq.label_tag }}
+                    {{ form.p_seq }}
+                    {{ form.p_seq.errors }}
+                </div>
+                <div class="col-md-5 form-field">
+                    {{ form.p_name.label_tag }}
+                    {{ form.p_name }}
+                    {{ form.p_name.errors }}
+                </div>
+                <div class="col-md-2 form-field">
+                    {{ form.p_career.label_tag}}
+                    {{ form.p_career }} 
+                </div>
+                <div class="col-md-2 form-field">
+                    {{ form.p_tel.label_tag}}
+                    {{ form.p_tel }} 
+                </div>
+                <div class="col-md-4 form-field">
+                    {{ form.p_address.label_tag }}
+                    {{ form.p_address }}
+                </div>
+               
+            </div>
+
+            <div>
+                <button type = "button" class = "button button-primary" onclick = "SaveAllData()"> บันทึก </button>  
+            </div>
+        </form>
+            
+    </div>
+    
+</section>
+
+<script>
+    function SaveAllData(bt) {
+        var msg =   'บันทึกข้อมูล\n' + 
+                    'ท่านต้องการยืนยันหรือไม่?';
+        
+        if (!confirm(msg)) {  
+                return;
+            } else {
+                document.querySelector('form').submit() ;
+                alert('บันทึกข้อมูลเรียบร้อย') ;
+            }
+    
+        }
+    
+
+</script>
+
+{% endblock %}

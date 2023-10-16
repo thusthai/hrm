@@ -1,0 +1,87 @@
+
+{% extends 'main.html' %}
+{% load static %} 
+{% load humanize %}
+{% block content %}
+  
+<section class = "content-section-single">
+<div class="container" >
+    <h6 class = "content-title text-center"> CREATE DATA TRANSACTION  </h6>
+    <!-- class for modal activate -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">CREATE DATA TRANSACTION </h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+      
+                <div class="modal-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class = "col-md-5 form-field">
+                            ประเภทพนักงาน
+                            <select class = "form-field" name="emptype" id = "id_emptype">
+                                <option value = "{{emptype}}" > {{ emptype }} </option>
+                                {% for emptype in emptypes %}
+                                    <option class ="select-field" id= "id_emptype" value="{{emptype.cde}}"> {{ emptype }} </option>
+                                {% endfor %}
+                            </select>    
+
+                        </div>
+                        <div class = "col-md-5 form-field">
+                            งวดทำงาน
+                            <select class = "col-md-10 form-field" name="period" id = "id_period">
+                                <option value = "{{period}}" > {{period}} </option>
+                                {% for period in periods %}
+                                    <option class ="select-field" id= "id_period" value="{{period.cde}}"> {{ period }} </option>
+                                {% endfor %}
+                            </select>    
+
+                        </div>
+                           
+                           
+                    </form>
+                </div>
+      
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Go</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end of modal -->
+      
+    <!-- #Add a button that will trigger the modal: -->
+    <div class ="row">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            Run
+        </button>
+    </div>
+    <br>
+    <br>
+    <div> </div>
+</div>
+
+</section>
+
+<script>
+    function SaveAllData(bt) {
+        var msg =   'บันทึกข้อมูล\n' + 
+                    'ท่านต้องการยืนยันหรือไม่?';
+        
+        if (!confirm(msg)) {  
+                return;
+            } else {
+                document.querySelector('form').submit() ;
+                alert('บันทึกข้อมูลเรียบร้อย') ;
+            }
+    
+        }
+    
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'main.html' %} 
+
+{% load static %}
+
+{% block content %}
+
+<section class = "content-section-single">             
+        <div class = "content-container">   
+               
+
+                <div class="grid grid-2">
+                        <div class="main-menu">
+                                <div class="col-md-12">                        
+                                        <a  href="{% url 'menu_hm' %}">
+                                        <img class = "site-mainmenu-item site-image-icon" src="{% static 'header/menu/hr/human-01.png' %}" alt="">
+                                        จัดการบุคคล </a>    
+                                </div>
+                                <div class="col-md-12">                               
+                                        <a  href="{% url 'ta-dashboard' %}">
+                                        <img class = "site-mainmenu-item site-image-icon" src="{% static 'header/menu/hr/time-04.png' %}" alt="">
+                                        งานระบบบันทึกเวลา</a>    
+                                </div>
+
+                                <div class="col-md-12">                                
+                                        <a  href="{% url 'menu_payroll' %}">
+                                        <img class = "site-mainmenu-item site-image-icon" src="{% static 'header/menu/hr/salary.png' %}" alt="">
+                                        งานบัญชีเงินเดือน</a>    
+                                </div>
+                                
+                                <div class="col-md-12">                                
+                                        <a  href="{% url 'adminhome' %}">
+                                        <img class = "site-mainmenu-item site-image-icon" src="{% static 'header/menu/hr/human-00.png' %}" alt="">
+                                        Admin Menu </a>    
+                                </div>
+                        </div>
+
+                        <div class="col-md-12">                        
+                            
+                                <img class = "" src="{% static 'header/menu/hr/hrm01.png' %}" alt="">
+                        
+                        </div>
+                        <div>
+
+                        </div>
+                           
+                                
+                        
+                </div>
+           
+        </div>
+        
+        <div class="row"> </div>
+
+</section>
+
+
+{% endblock %} 

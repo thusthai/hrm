@@ -1,0 +1,187 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load humanize %}
+{% load tz %}
+
+
+{% block title %} {{ msg }} {% endblock %}
+
+{% block content %} 
+
+  
+<section class = "content-section-single">
+    <div class = "container">
+        <h6 class = "content-title text-center"> TIME DATA LIST|บันทึกรายการเวลาเข้า-ออกประจำวัน|{{period}} </h6> 
+
+    
+        <div class = "row ">
+            <div class = "col-md-5">
+               
+                    <span class="step-links">
+
+                        <p>รายการที่ {{ page_obj.start_index }}—{{ page_obj.end_index }} 
+                            <span class="current">
+                                (หน้าที่ {{ page_obj.number }}/{{ page_obj.paginator.num_pages }})
+                            </span>
+                        </p>
+                    </span>
+                
+            </div>
+
+            <div class="col-md-1"></div>
+            <div class="col-md-2"></div>
+
+            <div class="col-md-4 text-right">
+             
+                <!-- from start filter on emptype and period -->
+                {% if dep_id == None %}
+                <form class="form-inline my-2 my-lg-0" action="{% url 'timedata_filter' emptype period   %}">
+                
+                    <input class="form-control mr-sm-2" type="search" placeholder="ระบุช้อความที่ต้องการ" aria-label="Search" name="q">                
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ค้นหา</button>
+      
+                </form>
+                {% else %}
+                <form class="form-inline my-2 my-lg-0" action="{% url 'timedata_filter_bydate' emptype period workdate strcon dep_id %}">
+                
+                    <input class="form-control mr-sm-2" type="search" placeholder="ระบุช้อความที่ต้องการ" aria-label="Search" name="q">                
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ค้นหา</button>
+ 
+                </form>
+                {% endif %}
+                
+               
+            </div>
+      
+        </div>
+     
+        <div class="row">
+            <nav class = "site-header-submenu">
+                {% if dep_id != None %}
+                    <a class = "site-header-submenu-item " href="{%url 'menu-time-by-dep' emptype period workdate %}"> 
+                        <ion-icon class="" name="arrow-back-circle-outline" size="small" ></ion-icon>
+                        ย้อนกลับ </a>
+                {% else %}
+                    <a class = "site-header-submenu-item " href="{%url 'menu-time' emptype period %}"> 
+                        <ion-icon class="" name="arrow-back-circle-outline" size="small" ></ion-icon>
+                        ย้อนกลับก่อนหน้า </a>
+                {% endif %}
+                <a class = "site-header-submenu-item " href="#"> Export </a>      
+                       
+            </nav>
+        </div>
+
+        <div class="row">
+            <table class = "table table-responsive-md table-sm th"> 
+                <thead class = "thead th">
+                  
+                    <tr>
+                        
+                        <th> ID#</th>
+                        <th> Date  </th>
+                        <th> Employee </th> 
+                        <th> SHIFT </th>
+                        <th> เข้างาน </th>
+                        <th> ออกงาน </th>
+                        <th> #OT  </th>
+                        <th> #Late  </th>              
+                        <th> #Out-BF </th>    
+                        <th> #LEAVE </th>                   
+                        <th> หมายเหตุ </th>
+                       
+                    </tr>
+                </thead>
+
+                {% for r in page_obj %}
+                
+                    <tr> 
+                        <td> <a href="{% url 'timedata_update' emptype period r.workdate strcon r.id  %}">  {{ r.id }}  </a></td>              
+                        <!-- td class="col-md-2"> <a href="{% url 'hmdailytransactionupdate' r.id  %}"> {{ r.emp_cde }} </a></!-->                     
+                        
+                        <td class="col-md-1"> {{ r.ta_date|date:"d-m-Y" }} </td>
+                        <td class="col-md-3"> 
+                            <a href = "{% url 'hm-edit' emptype r.emp_cde.emp_dep.id r.emp_cde.id %}" >
+                                        {{ r.emp_cde }}({{r.emp_cde.emp_dep.dep_code }})  </a>
+                        </td>
+                        <!-- td class = "col-md-1" > {{ r.workdate }} </!-->
+                        <td class ="" > {{r.shift }} </td>
+                        {% if r.timein != None %}
+                            <td class=""> {{ r.timein }} </td>
+                        {% else %}
+                            <td class= ""> </td>
+                        {% endif %}
+                        {% if r.timeout != None %}
+                            <td class=""> {{ r.timeout }} </td>
+                        {% else %}
+                            <td class= ""> </td>
+                        {% endif %}
+                        {% if r.numot > 0 %}
+                            <td class=""> {{ r.numot}} </td>
+                        {% else %}
+                            <td class= ""> </td>
+                        {% endif %}
+                        {% if r.numlate > 0 %}
+                            <td class=""> {{ r.numlate }} </td>                            
+                        {% else %}
+                            <td class= ""> </td>
+                        {% endif %}
+                        {% if r.numoutbf > 0 %}
+                            <td class=""> {{ r.numoutbf }} </td>
+                        {% else %}
+                            <td class= ""> </td>
+                        {% endif %}    
+                        {% if r.leavecode != None %} 
+                            <td class=""> {{r.leavecode}} </th>
+                        {% else %}
+                            <td class= ""> </td>
+                        {% endif %}
+                        
+                        <td class="col-md-2"> {{ r.remarks_other }} </td>
+                       
+                    </tr>
+                
+                {% endfor %}
+
+            </table>
+                
+        </div>
+
+        <!-- แสดง pagination -->
+        
+        <div class="row">
+
+            <div class="grid grid-3 bg-warning">
+
+                <div class = "col-md-12">
+                    <div class="pagination">
+                        <span class="step-links ">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1&q={{request.GET.q}}">&laquo;   หน้าแรก </a>
+                                {% if page_obj.previous_page_number != 1 %}
+                                    <a href="?page={{ page_obj.previous_page_number }}&q={{request.GET.q}}"> ก่อนหน้า</a>
+                            
+                                {% endif %}
+                            {% endif %}
+                            {% if page_obj.has_next %}
+                                
+                                {% if page_obj.next_page_number != paginator.num_pages %} 
+                                    <a href="?page={{ page_obj.next_page_number }}&q={{request.GET.q}} "> ถัดไป </a>
+                                {% endif %}
+
+                                <a href="?page={{ page_obj.paginator.num_pages }}&q={{request.GET.q}} ">หน้าสุดท้าย &raquo;</a>
+                            {% endif %}
+
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-12"> </div>
+                <div class="col-md-12"> 
+                   
+                </div>
+            </div> <!-- end Grid -->
+        </div>
+      
+    </div>
+</section> 
+
+{% endblock %} 

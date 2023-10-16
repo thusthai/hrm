@@ -1,0 +1,137 @@
+
+{% extends 'main.html' %}
+{% load static %} 
+{% load humanize %}
+ 
+
+{% block content %} 
+<section class = "content-section-single">
+    <h6 class = "content-title text-center"> พนักงาน | {{empcde}} {{empname}}  </h6>
+    <div class = "container">
+        <div class="row">
+            <nav class = "site-header-submenu">
+                <a class = "site-header-submenu-item " href="{%url 'monthendemployeelist' emptype %}"> เมนูก่อนหน้า </a>
+
+            </nav>
+          
+            <div class="row">
+                <p class="content-title"> ข้อมูลรายการเงินได้/เงินหัก ประจำงวด </p>
+                <div class="row">
+                        
+                    <div class= "table-responesive-sm col-md-12" >
+                        <table class = "table table-sm table-border border-secondary table-hover">      
+                            <thead class= "table-dark">
+                                <tr>
+                                
+                                    <th class="col-md-5"> Description  </th>
+                                    <th class="col-md-1 text-right"> Hour(Min) </th>
+                                    <th class="col-md-1 text-right"> Day </th>
+                                    <th class="col-md-1 text-right"> NUM </th>
+                                    <th class="col-md-1 text-right"> AMOUNT </th>
+                                   
+                                 
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% if data != None  %}
+                                    {% for r in data %}
+                                    <tr>
+                                        <td class="col-md-5"> <a href="{% url 'monthendedittransaction' emptype empcde r.id %}"> {{r.code }} </a></td>
+                                        <td class="col-md-1 text-right"> {{r.numhour|floatformat:0|intcomma}} </td>
+                                        <td class="col-md-1 text-right"> {{r.numday|floatformat:0|intcomma}} </td>
+                                        <td class="col-md-1 text-right"> {{r.num |floatformat:2|intcomma}} </td>
+                                        <td class="col-md-1 text-right"> {{r.payamt|floatformat:2|intcomma }} </td>
+                                
+                                   
+                                    </tr>
+                                    {% endfor %}
+                                {% endif %}    
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div> <!-- end of type of employee blog -->  
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.errors }}
+                    {{ form.non_field.errors }}
+                    
+                    <div>
+                                            
+                        <div class="table table-responsive">
+                                  
+                            <table class="table-sm table-border border-secondary table-hover">
+
+                                <thead class="" >
+                                    <tr>
+                                        <th> Add New </th>
+                                    </tr>
+                                    <tr>
+                                        <th class="col-md-5"> {{ form.code.label_tag }} </th>
+                                        <th class="col-md-1"> {{ form.numhour.label_tag}} </th>
+                                        <th class="col-md-1"> {{ form.numday.label_tag}} </th>
+                                        <th class="col-md-1"> {{ form.num.label_tag}} </th>
+                                        <th class="col-md-1"> {{ form.payamt.label_tag }} </th>
+                                    </tr>
+                                </thead>
+                                <tbody> 
+                                    <tr>
+                                        <div class="form-filed" >
+                                            <td class="col-md-5"> {{ form.code }} </td>
+                                            <td class="col-md-1"> {{ form.numhour }} </td>
+                                            <td class="col-md-1"> {{ form.numday}} </td>
+                                            <td class="col-md-1"> {{ form.num}} </td>
+                                            <td class="col-md-1 text-right"> {{ form.payamt}} </td>
+                                        </div> 
+                                    </tr>
+                                </tbody>
+
+                            
+                            </table>
+                                    
+                        </div>    
+                        
+
+                    </div>
+                   
+
+                    <div> 
+                        <button type="submit" class = "button button-primary" onclick = "SaveAllData()"> บันทึก </button>  
+                    </div>
+                </form>
+            </div>  <!-- end of income information -->
+            
+        </div>
+     
+    </div>
+    
+       
+
+         
+</section>
+
+<script type="text/javascript">
+   
+    
+    function SaveAllData(bt) {
+        var msg =   'บันทึกข้อมูล\n' + 
+                    'ท่านต้องการยืนยันหรือไม่? ' ;
+       
+        if (!confirm(msg)) {  
+                return;
+            } else {
+              
+                document.querySelector('form').submit() ;
+                alert('บันทึกข้อมูลเรียบร้อย') ;
+            
+            }
+              
+    }
+            
+    
+
+</script>
+
+{% endblock %}

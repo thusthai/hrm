@@ -1,0 +1,156 @@
+
+{% extends 'main.html' %}
+{% load static %} 
+{% load humanize %}
+
+{% block content %}
+
+
+<section class = "content-section content-section-single">
+    <div class="content-container">
+        <nav class = "site-header-submenu">
+          
+            <a class = "col-md-1 site-header-item-submenu" href="{% url 'userlist' %}"> User-List</a>           
+            <p> {{user.username}} </p>
+
+        </nav>
+        <div class="row">
+               
+            <div>
+                <!--img class = "image-icon-brand" src="{% static 'header/login_key.png' %}" alt="" !-->
+                {% if err_msg is not None %}
+                
+                    <div class="alert alert-info" role= "alert"> {{err_msg}} </div>
+
+                {% endif %}
+                
+                <form class="form-field" method="post">
+                    {% csrf_token %}
+                    {{ form.errors }}
+                    
+                    <!-- select class="col-md-4 form-field" name="user" id="selectuser">
+                        <option value="{{ user }}">{{ user }}</option>
+                       
+                    </!-->   
+                    
+                    <div class="row">
+                        <table class="table-responsive">
+                            <thead>
+                                <tr>
+                                    <th> Application </th>
+                                    <th> Access </th>
+                                    <th> Admin </th>
+                                    <th> Add </th>
+                                    <th> Edit </th>
+                                    <th> Delete </th>
+                                    <th> View </th>
+                                    <th> Approve</th>
+                                    <th> Authorize</th>
+                               
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <select class="col-md-12 form-field" name="content_type" id="content_type">
+                                        <option value="{{ content_type }}">{{ content_type }}</option>
+                                        {% for content in content_types %} 
+                                            <option class = "select-field" id="selectapp" 
+                                                value="{{content.id}}"> {{ content.app_label }} {{content.model}}
+                                            </option>           
+                                        {% endfor %}
+ 
+                                    </select>    
+                                </td> 
+                                <div class=" col-sm-3 form-field">
+                                    <td>
+                                        {{ form.is_access }}
+                                    </td>
+                                </div>
+                                <div class=" col-sm-3 form-field">
+                                    <td>
+                                        {{ form.is_admin }}
+                                    </td>
+                                </div>
+                                <div class=" col-sm-3 form-field">
+                                    <td>
+                                        {{ form.is_add }}
+                                    </td>
+                                </div>
+                              
+                                <div class="col-sm-2 form-field">
+                                <td>  
+                                  
+                                    {{ form.is_edit }}   
+                                </td>
+                                </div>
+                                <div class="col-sm-2 form-field">
+                                    <td>  
+                                      
+                                        {{ form.is_delete }}   
+                                    </td>
+                                </div>
+                                <div class="col-sm-2 form-field">
+                                    <td>  
+                                    
+                                        {{ form.is_view }}   
+                                    </td>
+                                </div>
+                                <div class="col-sm-2 form-field">
+                                <td>
+                                 
+                                    {{ form.is_approve }}
+                                </td>
+                                </div>
+                                <div class="col-sm-2 form-field">
+                                <td>
+                                    
+                                    {{ form.is_authorize }}
+                                </td>
+                                </div>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div> <p> </p> </div>
+
+                    <div class="">
+                        <button class="btn btn-primary" type="submit" onclick=SaveData('err_msg')> บันทึก </button>
+                    </div>
+
+                </form>    
+            </div>        
+
+            
+        </div>   
+        
+    </div>  
+
+</section>
+
+
+<script>
+    function SaveData(msg) {
+    if msg == None:   
+        var msg =   'บันทึกข้อมูล\n' + 
+                'ท่านต้องการยืนยันหรือไม่?';
+    endif 
+
+    if (!confirm(msg)) {  
+            return;
+        } else {
+
+   
+
+        }
+
+    }
+
+
+   
+
+</script>
+
+{% endblock %}

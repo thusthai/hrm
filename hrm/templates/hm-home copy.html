@@ -1,0 +1,62 @@
+{% extends 'main.html' %} 
+
+{% load static %}
+
+{% block content %}
+<section class = "content-section-single">     
+      
+        <div class = "content-container">
+                <h5 class = "content-title text-center"> ระบบบริหารงานบุคคล Human Resource Management</h5>        
+               
+                <div class="grid grid-2">
+                        <div class="row">
+                                <div class = "main-menu" >
+                                
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item"  href="{% url 'hmsetting' %}"> 
+                                                <img class = "site-submenu-image-icon" src="{% static 'header/menu/hr/human-00.png' %}" alt="">                                       
+                                                ข้อมูลเริ่มต้น </a>  
+                                        </div>
+
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item" href="{% url 'hmdashboard' %}" >
+                                                <img class = "site-submenu-image-icon" src="{% static 'header/menu/hr/icon-hrm.png' %}" alt="Master File">
+                                                ข้อมูลหลักพนักงาน </a> 
+                                        </div>
+
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item" href="{%url 'hmdailymenu' %}"> 
+                                                <img class = "site-submenu-image-icon" src="{% static 'header/menu/hr/time-02.png' %}" alt="">
+                                                        ข้อมูลการทำงานประจำวัน </a> 
+                                        </div>
+
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item" href="{%url 'hmmonthendmenu' %}"> 
+                                                <img class = "site-submenu-image-icon" src="{% static 'header/menu/hr/human-0.png' %}" alt="">
+                                                        ประมวลผลเงินได้ </a> 
+                                        </div>
+                                        
+                                        <div class="col-md-10">
+                                                <a class="site-submenu-item" href="#">
+                                                <img class = "site-submenu-image-icon" src="{% static 'header/menu/icon-report.png' %}" alt="">
+                                                        รายงาน </a> 
+                                        </div>
+                                </div>
+
+                                
+
+                        
+                        </div>
+
+                        <div class="row">
+                                <div class="col-sm-6 col-md-12">
+                                       
+                                        <img class = "site-mainmenu site-mainmenu-item" src="{% static 'header/menu/hr/human-03.png' %}" alt="">
+                                            
+                                </div>
+                        </div>
+                </div>                   
+        </div>
+</section>
+
+{% endblock %} 
